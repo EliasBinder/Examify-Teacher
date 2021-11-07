@@ -9,3 +9,9 @@
     padding-top: 15px;
     box-sizing: border-box;
 }
+
+.nav-search-wrapper{
+    position: absolute;
+    width: 100vw;
+    height: 56px;
+}

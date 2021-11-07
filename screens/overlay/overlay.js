@@ -1,10 +1,37 @@
+var sidenav;
+
 function render(path, containerID) {
     window.intercom.receive('reqfile', (json) => {
-        document.getElementById(containerID).innerHTML = json['content'];
+        if (sidenav)
+            sidenav.close();
+        document.getElementById(containerID).innerHTML = json['html'];
+        if (json['js']) {
+            let jsContainer = document.createElement('script');
+            let jsText = document.createTextNode(json['js']);
+            jsContainer.appendChild(jsText);
+            document.getElementById(containerID).appendChild(jsContainer);
+        }
     });
     window.intercom.send('reqfile', {
         'path': path
     });
 }
 
-render('login/login.html', 'main');
+//render('examlist', 'main');
+render('exam', 'main');
+
+
+let domLoadListenerCache = [];
+let domLoadListenerFired = false;
+document.addEventListener('DOMContentLoaded', function() {
+    for (let i = 0; i < domLoadListenerCache.length; i++) {
+        domLoadListenerCache[i]();
+    }
+    domLoadListenerFired = true;
+});
+function domLoadListenerAdd(func) {
+    if (!domLoadListenerFired)
+        domLoadListenerCache.push(func);
+    else
+        func();
+}

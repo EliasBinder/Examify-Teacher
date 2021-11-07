@@ -1,0 +1,5 @@
+domLoadListenerAdd(() => {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems);
+    sidenav = instances[0];
+});
