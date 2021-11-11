@@ -1,8 +1,12 @@
 //{import overlay/template/navigation.js}
 
 domLoadListenerAdd(() => {
-    var elems = document.querySelectorAll('.fixed-action-btn');
-    var instances = M.FloatingActionButton.init(elems);
+    let elemsFloatingBtn = document.querySelectorAll('.fixed-action-btn');
+    let instancesFloatingBtn = M.FloatingActionButton.init(elemsFloatingBtn);
+    let elemsModal = document.querySelectorAll('.modal');
+    let instancesModal = M.Modal.init(elemsModal);
+    let elemsShare = document.querySelectorAll('.chips');
+    let instancesShare = M.Chips.init(elemsShare);
 });
 
 function toggleSearch(){
@@ -13,4 +17,12 @@ function toggleSearch(){
         document.getElementById('navbar_search').style.display = 'none';
         document.getElementById('search').value = '';
     }
+}
+
+function openExam(examID){
+    render('exam', 'main');
+}
+
+function createExam() {
+    render('exam', 'main');
 }

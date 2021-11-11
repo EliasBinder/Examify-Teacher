@@ -17,8 +17,7 @@ function render(path, containerID) {
     });
 }
 
-//render('examlist', 'main');
-render('exam', 'main');
+render('examlist', 'main');
 
 
 let domLoadListenerCache = [];

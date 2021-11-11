@@ -15,11 +15,96 @@
 //{import overlay/template/navigation.html}
 
 <div class="fixed-action-btn">
-    <a class="btn-floating btn-large blue lighten-2 waves-effect waves-light">
+    <a href="javascript:createExam()" class="btn-floating btn-large blue lighten-2 waves-effect waves-light">
         <i class="material-icons" style="font-size: 40px">add</i>
     </a>
 </div>
 
 <div class="container">
+    <div class="row">
+        <div class="col s5">
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="../../resources/images/abstract1.jpg">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">IDB Exam 2021/22<i class="material-icons right">more_vert</i></span>
+                    <p>
+                        <br/>
+                    </p>
+                </div>
+                <div class="card-action">
+                    <a href="javascript:openExam(null)" class="blue-text text-lighten-2"><i class="material-icons left blue-text text-lighten-2">launch</i>Open</a>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Options<i class="material-icons right">close</i></span>
+                    <div class="col" style="margin-top: 30px">
+                        <div class="row">
+                            <a href="javascript:openExam(null)" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons left">launch</i>Open</a>
+                        </div>
+                        <div class="row">
+                            <a data-target="modal-rename" class="waves-effect waves-light btn blue lighten-2 modal-trigger"><i class="material-icons left">edit</i>Rename</a>
+                        </div>
+                        <div class="row">
+                            <a data-target="modal-share" class="waves-effect waves-light btn blue lighten-2 modal-trigger"><i class="material-icons left">share</i>Share</a>
+                        </div>
+                        <div class="row">
+                            <a href="javascript:openExam(null)" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons left">ios_share</i>Export</a>
+                        </div>
+                        <div class="row">
+                            <a href="javascript:openExam(null)" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons left">play_circle</i>Hold</a>
+                        </div>
+                        <div class="row">
+                            <a data-target="modal-delete" class="waves-effect waves-light btn blue lighten-2 modal-trigger"><i class="material-icons left">delete_forever</i>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div id="modal-rename" class="modal">
+    <div class="modal-content">
+        <h4>Rename 'IDB Exam 2021/22'</h4>
+        <p>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="modal-rename-newname" type="text" class="validate" value="IDB Exam 2021/22">
+                    <label for="modal-rename-newname" class="active">New Name</label>
+                </div>
+            </div>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Rename</a>
+    </div>
+</div>
+
+<div id="modal-share" class="modal">
+    <div class="modal-content">
+        <h4>Share 'IDB Exam 2021/22'</h4>
+        <p class="col s12">
+            Who would you like to share 'IDB Exam 2021/22' with?
+            <div class="chips chips-autocomplete"></div>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Share</a>
+    </div>
+</div>
+
+<div id="modal-delete" class="modal">
+    <div class="modal-content">
+        <h4>Delete 'IDB Exam 2021/22'</h4>
+        <p>
+            Are you sure that you want to delete the exam 'IDB Exam 2021/22'?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Delete</a>
+    </div>
 </div>
