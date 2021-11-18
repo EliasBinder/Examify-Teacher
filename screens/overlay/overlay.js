@@ -34,3 +34,16 @@ function domLoadListenerAdd(func) {
     else
         func();
 }
+
+
+function openDialogSync(type, options){
+    return new Promise((resolve, reject) => {
+        window.intercom.receive('dialog', (json) => {
+            resolve(json);
+        });
+        window.intercom.send('dialog', {
+            'type': 'open',
+            'options': options
+        });
+    });
+}

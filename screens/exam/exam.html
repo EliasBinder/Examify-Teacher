@@ -7,75 +7,119 @@
     </div>
 </nav>
 <ul id="nav_more_dropdown" class="dropdown-content dropdown-aligned">
-    <li><a href="#!" class="blue-text darken-3"><i class="material-icons blue-text darken-3">edit</i>Rename</a></li>
-    <li><a href="#!" class="blue-text darken-3"><i class="material-icons blue-text darken-3">share</i>Share</a></li>
-    <li><a href="#!" class="blue-text darken-3"><i class="material-icons blue-text darken-3">ios_share</i>Export</a></li>
-    <li><a href="#!" class="blue-text darken-3"><i class="material-icons blue-text darken-3">play_circle</i>Hold</a></li>
-    <li><a href="#!" class="blue-text darken-3"><i class="material-icons blue-text darken-3">delete_forever</i>Delete</a></li>
+    <li><a href="#!" class="blue-text"><i class="material-icons blue-text">edit</i>Rename</a></li>
+    <li><a href="#!" class="blue-text"><i class="material-icons blue-text">share</i>Share</a></li>
+    <li><a href="#!" class="blue-text"><i class="material-icons blue-text">ios_share</i>Export</a></li>
+    <li><a href="#!" class="blue-text"><i class="material-icons blue-text">play_circle</i>Hold</a></li>
+    <li><a href="#!" class="blue-text"><i class="material-icons blue-text">delete_forever</i>Delete</a></li>
 </ul>
+
 //{import overlay/template/navigation.html}
+
 <div class="container">
     <div class="row">
-        <ul class="collapsible">
-            <li>
-                <div class="collapsible-header"><i class="material-icons">assignment</i>Question 1</div>
-                <div class="collapsible-body">
-                    <div class="row" style=" margin-bottom: 50px">
-                        <span style="font-size: 2.5em">Question</span>
-                    </div>
-                    <p>
-                        <div class="row">
-                            <div class="input-field">
-                                <input placeholder="Title of this question" class="validate" id="1_question_title" type="text" value="Question 1">
-                                <label for="1_question_title" class="active">Title of this question</label>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 30px">
-                            <div class="input-field">
-                                <label class="active" for="quill-container" style="transform: translateY(-24px) scale(0.8);">Text of this question</label>
-                                <div class="validate z-depth-1">
-                                    <div id="quill-container">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <a href="#" class="dropdown-trigger btn waves-effect waves-light blue lighten-2" data-target="1_question_add"><i class="material-icons left">add</i>Add</a>
-                            <ul class="dropdown-content dropdown-aligned" id="1_question_add">
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">image</i>Image</a></li>
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">movie</i>Video</a></li>
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">headphones</i>Audio</a></li>
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">insert_drive_file</i>File</a></li>
-                            </ul>
-                        </div>
-                    </p>
-                    <div class="divider"></div>
-                    <div class="row" style=" margin-bottom: 50px">
-                        <span style="font-size: 2.5em">Answer</span>
-                    </div>
-                    <p>
-                        <div class="row">
-                            <div id="1_answer_list" class="collection z-depth-1" style="border: 1px solid #ccc">
-                                <a href="#" class="collection-item blue-text text-lighten-2">Text<i class="material-icons secondary-content blue-text text-lighten-2">delete</i></a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <a class="dropdown-trigger btn blue lighten-2 waves-effect waves-light" href="#" data-target="1_answer_type"><i class="material-icons left">add</i>Add answer type</a>
-                            <ul class="dropdown-content dropdown-aligned" id="1_answer_type">
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">article</i>Text</a></li>
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">article</i>Cloze</a></li>
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">check_box</i>Multiple Choice</a></li>
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">mic</i>Audio Recording</a></li>
-                                <li><a href="#" class="blue-text darken-3"><i class="material-icons blue-text darken-3">insert_drive_file</i>File Upload</a></li>
-                            </ul>
-                        </div>
-                    </p>
-                </div>
-            </li>
+        <ul class="collapsible" id="exam_questionsList">
+
         </ul>
     </div>
     <div class="row center-align">
-        <a href="#" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Question</a>
+        <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Question</a>
     </div>
 </div>
 
+<div id="exam_modal_preview_img" class="modal">
+    <div class="modal-content">
+        <h4 id="exam_modal_preview_img_name">%name%</h4>
+        <p>
+            <img id="exam_modal_preview_img_img" class="materialboxed" style="max-width: 100%; max-height: 100%"/>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+<template id="exam_questionTemplate">
+    <li>
+        <div class="collapsible-header" id="%qid%_question_title">
+            <i class="material-icons left">assignment</i>
+            Question %qid%
+            <i class="material-icons secondary-content right red-text">delete</i></a>
+        </div>
+        <div class="collapsible-body">
+            <div class="row" style=" margin-bottom: 50px">
+                <span style="font-size: 2.5em">Question</span>
+            </div>
+            <p>
+            <div class="row">
+                <div class="input-field">
+                    <input placeholder="Title of this question" class="validate" id="%qid%_question_title_input" type="text" value="Question %qid%" onkeyup="exam_updateQTitle('%qid%', this.value)" onfocusout="exam_updateQTitle('%qid%', this.value)">
+                    <label for="%qid%_question_title_input" class="active">Title of this question</label>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+                <div class="input-field">
+                    <label class="active" for="%qid%-quill-container" style="transform: translateY(-24px) scale(0.8);">Text of this question</label>
+                    <div class="validate z-depth-1">
+                        <div id="%qid%-quill-container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="%qid%_question_attachments_row" style="display: none">
+                <div id="%qid%_question_attachments" class="collection z-depth-1" style="border: 1px solid #ccc">
+
+                </div>
+            </div>
+            <div class="row">
+                <a href="#" class="dropdown-trigger btn waves-effect waves-light blue lighten-2" data-target="%qid%_question_add"><i class="material-icons left">add</i>Add</a>
+                <ul class="dropdown-content dropdown-aligned" id="%qid%_question_add">
+                    <li><a href="javascript:exam_addQAttachment('%qid%', 0)" class="blue-text"><i class="material-icons blue-text">image</i>Image</a></li>
+                    <li><a href="#" class="blue-text"><i class="material-icons blue-text">movie</i>Video</a></li>
+                    <li><a href="#" class="blue-text"><i class="material-icons blue-text">headphones</i>Audio</a></li>
+                    <li><a href="javascript:exam_addQAttachment('%qid%', 3)" class="blue-text"><i class="material-icons blue-text">insert_drive_file</i>File</a></li>
+                </ul>
+            </div>
+            </p>
+            <div class="divider" style="margin-top: 3rem"></div>
+            <div class="row" style=" margin-bottom: 50px; margin-top: 2rem">
+                <span style="font-size: 2.5em">Answer</span>
+            </div>
+            <p>
+            <div class="row" id="%qid%_answer_list_row" style="display: none">
+                <div id="%qid%_answer_list" class="collection z-depth-1" style="border: 1px solid #ccc">
+
+                </div>
+            </div>
+            <div class="row">
+                <a class="dropdown-trigger btn blue lighten-2 waves-effect waves-light" href="#" data-target="%qid%_answer_type"><i class="material-icons left">add</i>Add answer type</a>
+                <ul class="dropdown-content dropdown-aligned" id="%qid%_answer_type">
+                    <li><a href="javascript:exam_addAType('%qid%', 0)" class="blue-text"><i class="material-icons blue-text">article</i>Text</a></li>
+                    <li><a href="javascript:exam_addAType('%qid%', 1)" class="blue-text"><i class="material-icons blue-text">article</i>Cloze</a></li>
+                    <li><a href="javascript:exam_addAType('%qid%', 2)" class="blue-text"><i class="material-icons blue-text">check_box</i>Multiple Choice</a></li>
+                    <li><a href="javascript:exam_addAType('%qid%', 3)" class="blue-text"><i class="material-icons blue-text">mic</i>Audio Recording</a></li>
+                    <li><a href="javascript:exam_addAType('%qid%', 4)" class="blue-text"><i class="material-icons blue-text">insert_drive_file</i>File Upload</a></li>
+                </ul>
+            </div>
+            </p>
+        </div>
+    </li>
+</template>
+
+<template id="exam_questionAttachmentTemplate">
+    <a href="javascript:exam_previewQAttachment('%qid%', '%id%')" class="collection-item black-text">
+        <i class="material-icons left blue-text lighten-2">%type%</i>
+        %name%
+        <i class="material-icons secondary-content red-text lighten-2">delete</i>
+    </a>
+</template>
+
+<template id="exam_answerTypeTemplate">
+    <a href="#" class="collection-item black-text" answerTypeId="%id%">
+        <i class="material-icons left blue-text lighten-2">%type%</i>
+        %name%
+        <i class="material-icons secondary-content red-text">delete</i>
+        <i onclick="exam_AType_MoveUp('%qid%', '%id%', event)" class="material-icons secondary-content blue-text" style="margin-right: 5px">arrow_upward</i>
+        <i onclick="exam_AType_MoveDown('%qid%', '%id%', event)" class="material-icons secondary-content blue-text" style="margin-right: 5px">arrow_downward</i>
+    </a>
+</template>

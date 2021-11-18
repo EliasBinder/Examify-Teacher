@@ -5,12 +5,17 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "dist_linux": "electron-builder build --linux"
   },
   "keywords": [],
-  "author": "",
+  "author": "Elias Binder",
   "license": "ISC",
   "devDependencies": {
     "electron": "^15.3.0"
+  },
+  "dependencies": {
+    "shell": "^0.8.4",
+    "yarn": "^1.22.17"
   }
 }

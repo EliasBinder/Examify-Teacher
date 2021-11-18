@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 
-module.exports.handle = function (msg) { //TODO: make independent from html, serve html, css and js in one request
+module.exports.handle = function (msg) {
     let relativePath = [];
     if (msg['path'].includes('/'))
         relativePath = msg['path'].split('/');
