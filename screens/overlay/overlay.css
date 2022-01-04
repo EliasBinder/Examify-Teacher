@@ -38,7 +38,8 @@
     box-shadow: 0 1px 0 0 #64b5f6 !important; /* blue lighten-2*/
 }
 /* invalid color */
-.input-field input[type=text] {
+.input-field input[type=text],
+.input-field input[type=number]{
     border-bottom: 1px solid #64b5f6 !important; /* blue lighten-2*/
     box-shadow: 0 1px 0 0 #64b5f6 !important; /* blue lighten-2*/
 }
@@ -54,4 +55,42 @@
 
 .text-outline{
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.container-fillHeight{
+    min-height: calc(100vh - 80px);
+}
+
+.secondary-content-collapsible{
+    position: absolute;
+    right: 10px;
+}
+
+.switch label input[type=checkbox]:checked+.lever {
+    background-color: #64b5f6;
+}
+.switch label input[type=checkbox]:checked+.lever:after {
+    background-color: #2196f3;
+}
+
+.transparent-overlay{
+    position: absolute;
+    z-index: 999999000;
+    background-color: #ffffff;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    -webkit-backdrop-filter: blur(10px) opacity(0.8);
+    -webkit-filter: blur(4px) opacity(0.8);
+}
+
+.transparent-overlay-foreground{
+    position: absolute;
+    z-index: 999999999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-backdrop-filter: initial;
+    -webkit-filter: initial;
 }

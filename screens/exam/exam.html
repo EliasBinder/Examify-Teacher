@@ -16,7 +16,7 @@
 
 //{import overlay/template/navigation.html}
 
-<div class="container">
+<div class="container container-fillHeight">
     <div class="row">
         <ul class="collapsible" id="exam_questionsList">
 
@@ -25,12 +25,19 @@
     <div class="row center-align">
         <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Question</a>
     </div>
+    <div class="row center-align">
+        <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">link</i>Link Question From Another Exam</a>
+    </div>
 </div>
 
-<div id="exam_modal_preview_img" class="modal">
+
+
+
+
+<div id="exam_modal_preview_img" class="modal mautoinit">
     <div class="modal-content">
         <h4 id="exam_modal_preview_img_name">%name%</h4>
-        <p>
+        <p class="center-align">
             <img id="exam_modal_preview_img_img" class="materialboxed" style="max-width: 100%; max-height: 100%"/>
         </p>
     </div>
@@ -39,12 +46,241 @@
     </div>
 </div>
 
+<div id="exam_modal_preview_video" class="modal">
+    <div class="modal-content">
+        <h4 id="exam_modal_preview_video_name">%name%</h4>
+        <p class="center-align">
+            <video id="exam_modal_preview_video_video" controls style="max-width: 100%; max-height: 100%"/>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+<div id="exam_modal_preview_audio" class="modal">
+    <div class="modal-content">
+        <h4 id="exam_modal_preview_audio_name">%name%</h4>
+        <p class="center-align">
+            <audio id="exam_modal_preview_audio_audio" controls style="width: 100%"/>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+
+
+
+
+<div id="exam_modal_editAnswerType_text" class="modal mautoinit">
+    <div class="modal-content">
+        <h4>Edit Text Answer</h4>
+        <p>
+            <ul class="collapsible">
+                <li class="active">
+                    <div class="collapsible-header">Word Limit</div>
+                    <div class="collapsible-body">
+                        <div class="switch">
+                            <div class="row">
+                                <div class="col s4">
+                                    <label>
+                                        Off
+                                        <input type="checkbox" id="exam_modal_editAnswerType_text_limit_checkbox" onchange="exam_modal_editAnswerType_text_limit_toggle()">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div>
+                                <div class="col s2" id="exam_modal_editAnswerType_text_limit_numberinput" style="display: none">
+                                    <div class="input-field">
+                                        <input placeholder="Number" value="100" id="exam_modal_editAnswerType_text_limit" type="number" class="validate">
+                                        <label class="active" for="exam_modal_editAnswerType_text_limit">Limit</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+<div id="exam_modal_editAnswerType_multiplechoice" class="modal mautoinit">
+    <div class="modal-content">
+        <h4>Edit Multiple Choice Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li class="active">
+                <div class="collapsible-header">Options</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row valign-wrapper">
+                            <div class="col s7" id="exam_modal_editAnswerType_multiplechoice_option_1">
+                                <div class="input-field">
+                                    <input placeholder="Text for Option 1" value="" id="exam_modal_editAnswerType_multiplechoice_option_1_value" type="text" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_multiplechoice_option_1_value">Option 1</label>
+                                </div>
+                            </div>
+                            <div class="col s5 right-align">
+                                <label>
+                                    is False
+                                    <input type="checkbox" id="exam_modal_editAnswerType_multiplechoice_option_1_isCorrect" onchange="">
+                                    <span class="lever"></span>
+                                    is True
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <a href="" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Option</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+<div id="exam_modal_editAnswerType_audio" class="modal mautoinit">
+    <div class="modal-content">
+        <h4>Edit Audio Recording Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li class="active">
+                <div class="collapsible-header">Duration Limit</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_audio_limit_checkbox" onchange="exam_modal_editAnswerType_audio_limit_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s6" id="exam_modal_editAnswerType_audio_limit_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="Duration in Seconds" value="" id="exam_modal_editAnswerType_audio_limit" type="number" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_audio_limit">Limit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+<div id="exam_modal_editAnswerType_file" class="modal mautoinit">
+    <div class="modal-content">
+        <h4>Edit File Upload Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header">Limit number of files</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_file_limit_number_checkbox" onchange="exam_modal_editAnswerType_file_limit_number_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s6" id="exam_modal_editAnswerType_file_limit_number_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="# of files" value="" id="exam_modal_editAnswerType_file_limit_number" type="number" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_file_limit_number">Limit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="collapsible-header">Limit size of file[s]</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_file_limit_size_checkbox" onchange="exam_modal_editAnswerType_file_limit_size_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s6" id="exam_modal_editAnswerType_file_limit_size_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="Size in MB" value="" id="exam_modal_editAnswerType_file_limit_size" type="number" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_file_limit_size">Limit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="collapsible-header">Allow only specific file types</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_file_spectypes_checkbox" onchange="exam_modal_editAnswerType_file_spectypes_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s6" id="exam_modal_editAnswerType_file_spectypes_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="pdf, docx, doc" value="" id="exam_modal_editAnswerType_file_spectypes" type="text" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_file_limit_size">Allowed file types (separated by ',')</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+
+
+
+
 <template id="exam_questionTemplate">
     <li>
-        <div class="collapsible-header" id="%qid%_question_title">
+        <div class="collapsible-header" id="%qid%_question_title" style="position: relative">
             <i class="material-icons left">assignment</i>
             Question %qid%
-            <i class="material-icons secondary-content right red-text">delete</i></a>
+            <i class="material-icons secondary-content-collapsible red-text">delete</i></a>
+            <i class="material-icons secondary-content-collapsible blue-text" style="right: 35px">arrow_upward</i>
+            <i class="material-icons secondary-content-collapsible blue-text" style="right: 60px">arrow_downward</i>
         </div>
         <div class="collapsible-body">
             <div class="row" style=" margin-bottom: 50px">
@@ -72,11 +308,11 @@
                 </div>
             </div>
             <div class="row">
-                <a href="#" class="dropdown-trigger btn waves-effect waves-light blue lighten-2" data-target="%qid%_question_add"><i class="material-icons left">add</i>Add</a>
+                <a href="#" class="dropdown-trigger btn waves-effect waves-light blue lighten-2" data-target="%qid%_question_add"><i class="material-icons left">attachment</i>Add Attachment</a>
                 <ul class="dropdown-content dropdown-aligned" id="%qid%_question_add">
                     <li><a href="javascript:exam_addQAttachment('%qid%', 0)" class="blue-text"><i class="material-icons blue-text">image</i>Image</a></li>
-                    <li><a href="#" class="blue-text"><i class="material-icons blue-text">movie</i>Video</a></li>
-                    <li><a href="#" class="blue-text"><i class="material-icons blue-text">headphones</i>Audio</a></li>
+                    <li><a href="javascript:exam_addQAttachment('%qid%', 1)" class="blue-text"><i class="material-icons blue-text">movie</i>Video</a></li>
+                    <li><a href="javascript:exam_addQAttachment('%qid%', 2)" class="blue-text"><i class="material-icons blue-text">headphones</i>Audio</a></li>
                     <li><a href="javascript:exam_addQAttachment('%qid%', 3)" class="blue-text"><i class="material-icons blue-text">insert_drive_file</i>File</a></li>
                 </ul>
             </div>
@@ -107,18 +343,18 @@
 </template>
 
 <template id="exam_questionAttachmentTemplate">
-    <a href="javascript:exam_previewQAttachment('%qid%', '%id%')" class="collection-item black-text">
+    <a href="javascript:exam_previewQAttachment('%qid%', '%id%')" class="collection-item black-text" attachmentId="%id%">
         <i class="material-icons left blue-text lighten-2">%type%</i>
         %name%
-        <i class="material-icons secondary-content red-text lighten-2">delete</i>
+        <i onclick="exam_deleteQAttachment('%qid%', '%id%', event)" class="material-icons secondary-content red-text">delete</i>
     </a>
 </template>
 
 <template id="exam_answerTypeTemplate">
-    <a href="#" class="collection-item black-text" answerTypeId="%id%">
+    <a href="javascript:exam_AType_modify('%qid%', '%id%')" class="collection-item black-text" answerTypeId="%id%">
         <i class="material-icons left blue-text lighten-2">%type%</i>
         %name%
-        <i class="material-icons secondary-content red-text">delete</i>
+        <i onclick="exam_AType_Delete('%qid%', '%id%', event)" class="material-icons secondary-content red-text">delete</i>
         <i onclick="exam_AType_MoveUp('%qid%', '%id%', event)" class="material-icons secondary-content blue-text" style="margin-right: 5px">arrow_upward</i>
         <i onclick="exam_AType_MoveDown('%qid%', '%id%', event)" class="material-icons secondary-content blue-text" style="margin-right: 5px">arrow_downward</i>
     </a>

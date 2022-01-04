@@ -3,6 +3,10 @@
 if (typeof exam_refType === 'undefined')
     var exam_refType;
 
+if (typeof examlist === 'undefined')
+    var examlist;
+examlist = [];
+
 domLoadListenerAdd(() => {
     let elemsFloatingBtn = document.querySelectorAll('.fixed-action-btn');
     let instancesFloatingBtn = M.FloatingActionButton.init(elemsFloatingBtn);
@@ -19,6 +23,7 @@ function toggleSearch(){
     }else {
         document.getElementById('navbar_search').style.display = 'none';
         document.getElementById('search').value = '';
+        cancelSearch();
     }
 }
 
@@ -30,4 +35,23 @@ function openExam(examID){
 function createExam() {
     exam_refType = 0;
     render('exam', 'main');
+}
+
+function renderExams(exams) {
+
+}
+
+function search() {
+    let searchText = document.getElementById('search').value;
+    let searchResult = [];
+    for(let exam of examlist){
+        if (exam.name.includes(searchText)){
+            searchResult.push(exam);
+        }
+    }
+    renderExams(exams);
+}
+
+function cancelSearch() {
+    renderExams(examlist);
 }

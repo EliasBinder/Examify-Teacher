@@ -16,7 +16,7 @@ module.exports.handle = function (msg) {
         toReturn.push({
             'path': p,
             'name': path.basename(p)
-        })
+        });
     }
     return toReturn;
 }

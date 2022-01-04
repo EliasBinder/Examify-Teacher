@@ -3,7 +3,7 @@ function exam_addAType(qid, type){
     let answerTypeHTML = document.getElementById('exam_answerTypeTemplate').innerHTML;
     let repType;
     let repName;
-    if (type == 0) { //text
+    if (type == 0) { //Text
         repType = 'article';
         repName = 'Text';
     }else if (type == 1){ //Cloze
@@ -113,4 +113,49 @@ function exam_AType_MoveDown(qid, aID, event){
     }
     event.preventDefault();
     event.stopPropagation();
+}
+
+function exam_AType_Delete(qid, id, event){
+    let entry = examJson.questions[qid+''].answer_types[id+''];
+    if (entry.previousID != -1 && entry.nextID != -1){
+        let prev = examJson.questions[qid+''].answer_types[entry.previousID+''];
+        let next = examJson.questions[qid+''].answer_types[entry.nextID+''];
+        prev.nextID = entry.nextID;
+        next.previousID = entry.previousID;
+    }else if (entry.previousID != -1){
+        if (entry.nextID == -1){
+            examJson.questions[qid+''].answer_typesLatest = entry.previousID;
+        }
+        let prev = examJson.questions[qid+''].answer_types[entry.previousID+''];
+        prev.nextID = -1;
+    }else if (entry.nextID != -1){
+        let next = examJson.questions[qid+''].answer_types[entry.nextID+''];
+        next.previousID = -1;
+    }else{
+        examJson.questions[qid+''].answer_typesCounter = 0;
+        examJson.questions[qid+''].answer_typesLatest = -1;
+        document.getElementById(qid + '_answer_list_row').style.display = 'none';
+    }
+    delete examJson.questions[qid+''].answer_types[id+''];
+    let dom = document.querySelectorAll('[answerTypeId="' + id + '"]')[0];
+    dom.parentNode.removeChild(dom);
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+function exam_AType_modify(qid, aid){
+    console.log('Type: ' + examJson.questions[qid+''].answer_types[aid+''].type);
+    if (examJson.questions[qid+''].answer_types[aid+''].type == 0){ //Text
+        let editInstance = M.Modal.getInstance(document.getElementById('exam_modal_editAnswerType_text'));
+        editInstance.open();
+    }else if (examJson.questions[qid+''].answer_types[aid+''].type == 2){ //Multiple Choice
+        let editInstance = M.Modal.getInstance(document.getElementById('exam_modal_editAnswerType_multiplechoice'));
+        editInstance.open();
+    }else if (examJson.questions[qid+''].answer_types[aid+''].type == 3){ //Audio Recording
+        let editInstance = M.Modal.getInstance(document.getElementById('exam_modal_editAnswerType_audio'));
+        editInstance.open();
+    }else if (examJson.questions[qid+''].answer_types[aid+''].type == 4){ //File Upload
+        let editInstance = M.Modal.getInstance(document.getElementById('exam_modal_editAnswerType_file'));
+        editInstance.open();
+    }
 }

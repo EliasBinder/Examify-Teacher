@@ -7,6 +7,6 @@ domLoadListenerAdd(() => {
 function nav_openGitHub(){
     window.intercom.receive('openlink', (json) => {});
     window.intercom.send('openlink', {
-        'url': 'https://github.com/EBinderUniBZ/Examify-Teacher'
+        'url': 'https://github.com/EliasBinder/Examify-Teacher'
     });
 }
