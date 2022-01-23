@@ -35,25 +35,55 @@ if (typeof examJson !== 'undefined'){
 examJson = {
     title: '',
     curQuestionId: 1,
+    latestQuestionId: -1,
     questions: {}
 };
+
+if (typeof examChanges !== 'undefined'){
+    var examChanges;
+}
+examChanges = {};
+
+function retrieveExamPackage(){
+    apiCall('GET', null, 'exam/getpackage?examid=' + exam_refID, false, (success, json) => {
+        if (success) {
+            examJson = json;
+            //TODO: sync ui with examJson
+        }else
+            M.toast({html: 'Could not download the exam!'});
+    });
+}
+//retrieveExamPackage(); TODO
 
 
 
 function exam_updateQTitle(qid, newTitle){
     newTitle = newTitle.trim();
-    document.getElementById(qid + '_question_title').innerHTML = '<i class="material-icons">assignment</i>' + newTitle;
+    document.getElementById(qid + '_question_title').innerHTML = '<i class="material-icons left">assignment</i>' +
+        newTitle +
+        '<i class="material-icons secondary-content-collapsible red-text" onclick="exam_removeQuestion(event, \'%qid%\')">delete</i></a>' +
+        '<i class="material-icons secondary-content-collapsible blue-text" onclick="exam_moveQuestion_up(event, \'%qid%\')" style="right: 35px">arrow_upward</i>' +
+        '<i class="material-icons secondary-content-collapsible blue-text" onclick="exam_moveQuestion_down(event, \'%qid%\')" style="right: 60px">arrow_downward</i>';
+    if (!(examChanges.hasOwnProperty(qid))) {
+        examChanges[qid] = {};
+    }
+    if (!(examChanges[qid].hasOwnProperty('title'))){
+        examChanges[qid].title = {
+            old: examJson.questions[qid+''].title
+        };
+    }
+    if (examChanges[qid].title.old != newTitle) {
+        examChanges[qid].title.new = newTitle;
+    }else{
+        delete examChanges[qid].title;
+    }
     examJson.questions[qid + ''].title = newTitle;
+    saveExam_checkChanges();
 }
 
 //{import exam/exam_QuestionAttachment.js}
 //{import exam/exam_AddQuestion.js}
 //{import exam/exam_AnswerTypeList.js}
 //{import exam/exam_AnswerTypeModals.js}
-
-
-//if a new exam has to be created: Add first question
-if (typeof exam_refType !== 'undefined'){
-    if (exam_refType == 0) //create a new exam
-        exam_addQuestion();
-}
+//{import exam/exam_RemoveOrderQuestion.js}
+//{import exam/exam_Save.js}

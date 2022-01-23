@@ -31,7 +31,9 @@ async function exam_addQAttachment(qid, type) {
             'openFile', 'multiSelections'
         ]
     });
-    if (dialogResult.result != 0){
+    console.log('dialogResult: ');
+    console.log(dialogResult)
+    if (Object.keys(dialogResult).length != 0){
         document.getElementById(qid + '_question_attachments_row').style.removeProperty('display');
         for (let x of dialogResult){
             examJson.questions[qid+''].attachments[examJson.questions[qid+''].attachmentsCounter+''] = {
@@ -48,6 +50,7 @@ async function exam_addQAttachment(qid, type) {
             let questionAttachmentTemplate = document.createElement('template');
             questionAttachmentTemplate.innerHTML = questionAttachmentHTML;
             document.getElementById(qid + '_question_attachments').appendChild(questionAttachmentTemplate.content.firstChild);
+            exam_uploadQAttachment(qid, examJson.questions[qid+''].attachmentsCounter);
             examJson.questions[qid+''].attachmentsCounter ++;
         }
     }
@@ -82,4 +85,20 @@ function exam_deleteQAttachment(qid, id, event) {
     }
     event.preventDefault();
     event.stopPropagation();
+}
+
+function exam_uploadQAttachment(qid, id) {
+    let toastInstance = M.toast({
+        html: '<div>' +
+            '<div>Uploading attachment</div><br/>' +
+            '<div class="progress blue lighten-3">' +
+            '    <div class="determinate blue" style="width: 70%"></div>' +
+            '</div>' +
+            '<div class="right">' +
+            '70%' +
+            '</div>' +
+            '</div>',
+        displayLength: 'stay',
+        userDismissible: false
+    });
 }

@@ -6,13 +6,43 @@
 </nav>
 //{import overlay/template/navigation.html}
 
+<div id="profile_modal_changePassword" class="modal">
+    <div class="modal-content">
+        <h4>Change Password</h4>
+        <p>
+        <div class="row" style="margin-top: 50px">
+            <div class="input-field col s12">
+                <input placeholder="" value="" id="profile_modal_changePassword_curPass" type="password" class="validate">
+                <label class="active" for="profile_modal_changePassword_curPass">Current Password</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6">
+                <div class="input-field">
+                    <input placeholder="" value="" id="profile_modal_changePassword_newPass1" type="password" class="validate">
+                    <label class="active" for="profile_modal_changePassword_newPass1">New Password</label>
+                </div>
+            </div>
+            <div class="input-field col s6">
+                <input placeholder="" value="" id="profile_modal_changePassword_newPass2" type="password" class="validate">
+                <label class="active" for="profile_modal_changePassword_newPass2">New Password Repeated</label>
+            </div>
+        </div>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:profile_changePassword_close()" class="modal-close waves-effect waves-light btn-flat">Close</a>
+        <a href="javascript:profile_changePassword_submit()" class="modal-close waves-effect waves-light btn-flat">Change</a>
+    </div>
+</div>
+
 <div class="container">
     <div class="row center-align" style="margin-top: 30px">
-        <img src="../../resources/images/profile_default.svg" style="width: 90%; max-width: 200px" class="rounded">
+        <img id="profile_image" src="../../resources/images/profile_default.svg" style="height: 250px; width: 250px" class="circle">
     </div>
     <div class="row center-align">
-        <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">upload</i>Upload Image</a>
-        <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">clear</i>Reset</a>
+        <a href="javascript:profile_setImage()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">upload</i>Upload Image</a>
+        <a href="javascript:profile_resetImage()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">clear</i>Reset</a>
     </div>
     <div class="row" style="margin-top: 80px">
         <h4>Personal Information</h4>
@@ -32,8 +62,8 @@
         </div>
     </div>
     <div class="row">
-        <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2 left-align"><i class="material-icons left">password</i>Change Password</a>
-        <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2 right"><i class="material-icons left">save</i>Save Changes</a>
+        <a href="javascript:profile_changePassword()" class="btn waves-effect waves-light blue lighten-2 left-align"><i class="material-icons left">password</i>Change Password</a>
+        <a href="javascript:profile_saveChanges()" class="btn waves-effect waves-light blue lighten-2 right"><i class="material-icons left">save</i>Save Changes</a>
     </div>
 </div>
 

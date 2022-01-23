@@ -6,11 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dist_linux": "electron-builder build --linux"
+    "dist_mac": "electron-builder build --mac"
   },
   "keywords": [],
   "author": "Elias Binder",
-  "license": "ISC",
+  "license": "Apache-2",
   "devDependencies": {
     "electron": "^15.3.0"
   },

@@ -39,7 +39,8 @@
 }
 /* invalid color */
 .input-field input[type=text],
-.input-field input[type=number]{
+.input-field input[type=number],
+.input-field input[type=password]{
     border-bottom: 1px solid #64b5f6 !important; /* blue lighten-2*/
     box-shadow: 0 1px 0 0 #64b5f6 !important; /* blue lighten-2*/
 }
@@ -64,6 +65,7 @@
 .secondary-content-collapsible{
     position: absolute;
     right: 10px;
+    z-index: 999;
 }
 
 .switch label input[type=checkbox]:checked+.lever {
@@ -93,4 +95,15 @@
     transform: translate(-50%, -50%);
     -webkit-backdrop-filter: initial;
     -webkit-filter: initial;
+}
+
+.middle-center-absolute{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.toast-stay{
+    display: block !important;
 }

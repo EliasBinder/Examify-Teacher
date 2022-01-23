@@ -2,7 +2,7 @@
     <div class="nav-wrapper blue lighten-2">
         <a href="#" data-target="slide-out" class="sidenav-trigger left show-on-large"><i class="material-icons">menu</i></a>
         <a href="javascript:render('examlist', 'main')" class="left"><i class="material-icons">arrow_back_ios</i></a>
-        <a href="#!" class="brand-logo center">IDB Exam 2021/22</a>
+        <a href="#!" class="brand-logo center">New Exam</a>
         <a class="dropdown-trigger right" data-target='nav_more_dropdown'><i class="material-icons">more_vert</i></a>
     </div>
 </nav>
@@ -15,6 +15,12 @@
 </ul>
 
 //{import overlay/template/navigation.html}
+
+<div class="fixed-action-btn" id="exam_floatingbtn" style="display: none">
+    <a href="javascript:saveExam()" class="btn-floating btn-large blue lighten-2 waves-effect waves-light">
+        <i class="material-icons" style="font-size: 40px">save</i>
+    </a>
+</div>
 
 <div class="container container-fillHeight">
     <div class="row">
@@ -42,7 +48,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
     </div>
 </div>
 
@@ -54,7 +60,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
     </div>
 </div>
 
@@ -66,7 +72,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
     </div>
 </div>
 
@@ -106,7 +112,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
     </div>
 </div>
 
@@ -145,7 +151,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
     </div>
 </div>
 
@@ -181,7 +187,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
     </div>
 </div>
 
@@ -265,22 +271,37 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
     </div>
 </div>
 
 
 
 
+<div id="exam_modal_deleteQuestion" class="modal mautoinit">
+    <div class="modal-content">
+        <h4>Delete a question</h4>
+        <p id="exam_modal_deleteQuestion_body">
+            Are you sure that you want to delete the question 'x'?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+        <a href="javascript:exam_removeQuestion_confirm()" class="modal-close waves-effect waves-light btn-flat">Delete</a>
+    </div>
+</div>
+
+
+
 
 <template id="exam_questionTemplate">
-    <li>
+    <li id="%qid%_question">
         <div class="collapsible-header" id="%qid%_question_title" style="position: relative">
             <i class="material-icons left">assignment</i>
             Question %qid%
-            <i class="material-icons secondary-content-collapsible red-text">delete</i></a>
-            <i class="material-icons secondary-content-collapsible blue-text" style="right: 35px">arrow_upward</i>
-            <i class="material-icons secondary-content-collapsible blue-text" style="right: 60px">arrow_downward</i>
+            <i class="material-icons secondary-content-collapsible red-text" onclick="exam_removeQuestion(event, '%qid%')">delete</i></a>
+            <i class="material-icons secondary-content-collapsible blue-text" onclick="exam_moveQuestion_up(event, '%qid%')" style="right: 35px">arrow_upward</i>
+            <i class="material-icons secondary-content-collapsible blue-text" onclick="exam_moveQuestion_down(event, '%qid%')" style="right: 60px">arrow_downward</i>
         </div>
         <div class="collapsible-body">
             <div class="row" style=" margin-bottom: 50px">
@@ -289,7 +310,7 @@
             <p>
             <div class="row">
                 <div class="input-field">
-                    <input placeholder="Title of this question" class="validate" id="%qid%_question_title_input" type="text" value="Question %qid%" onkeyup="exam_updateQTitle('%qid%', this.value)" onfocusout="exam_updateQTitle('%qid%', this.value)">
+                    <input placeholder="Title of this question" id="%qid%_question_title_input" type="text" value="Question %qid%" onkeyup="exam_updateQTitle('%qid%', this.value)" onfocusout="exam_updateQTitle('%qid%', this.value)">
                     <label for="%qid%_question_title_input" class="active">Title of this question</label>
                 </div>
             </div>
