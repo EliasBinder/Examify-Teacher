@@ -87,18 +87,44 @@ function exam_deleteQAttachment(qid, id, event) {
     event.stopPropagation();
 }
 
-function exam_uploadQAttachment(qid, id) {
+async function exam_uploadQAttachment(qid, id) {
+    let attachment = examJson.questions[qid + ''].attachments[id];
     let toastInstance = M.toast({
         html: '<div>' +
             '<div>Uploading attachment</div><br/>' +
             '<div class="progress blue lighten-3">' +
-            '    <div class="determinate blue" style="width: 70%"></div>' +
+            '    <div class="determinate blue" id="toast_upload_attachment_' + id + '" style="width: 0%"></div>' +
             '</div>' +
-            '<div class="right">' +
-            '70%' +
+            '<div class="right" id="toast_upload_attachment_' + id + '_percent">' +
+            '0%' +
             '</div>' +
             '</div>',
         displayLength: 'stay',
         userDismissible: false
     });
+    let blob = await fetch(attachment.path).then(r => r.blob());
+    let formData = new FormData();
+    formData.append('file', blob, attachment.name);
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            toastInstance.dismiss();
+            M.toast({html: 'Successfully uploaded the attachment!'});
+        }else if (this.readyState == 4 && this.status != 200 || this.readyState == 0){
+            toastInstance.dismiss();
+            M.toast({html: 'Could not upload the attachment!'});
+            let domentry = document.querySelectorAll('[attachmentid="' + id + '"]')[0];
+            document.getElementById(qid + '_question_attachments').removeChild(domentry);
+            examJson.questions[qid+''].attachments.splice(id, 1);
+            if (examJson.questions[qid+''].attachments.length == 0)
+                document.getElementById(qid + '_question_attachments_row').style.display = 'none';
+        }
+    };
+    xhr.upload.onprogress = function (e) {
+        let percentUpload = Math.floor(100 * e.loaded / e.total) + '%';
+        document.getElementById('toast_upload_attachment_' + id).style.width = percentUpload;
+        document.getElementById('toast_upload_attachment_' + id + '_percent').innerText = percentUpload;
+    }
+    xhr.open('PUT', connection.url + 'exam/' + exam_refID + '/questions/' + qid + '/addattachment', true);
+    xhr.send(formData);
 }
