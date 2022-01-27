@@ -77,12 +77,20 @@ function exam_previewQAttachment(qid, id){
 }
 
 function exam_deleteQAttachment(qid, id, event) {
-    delete examJson.questions[qid+''].attachments[id+''];
-    let dom = document.querySelectorAll('[attachmentId="' + id + '"]')[0];
-    dom.parentNode.removeChild(dom);
-    if (Object.keys(examJson.questions[qid+''].attachments).length == 0){
-        document.getElementById(qid + '_question_attachments_row').style.display = 'none'
-    }
+    apiCall('DELETE', null, 'exam/' + exam_refID + '/questions/' + qid + '/deleteattachment/' + examJson.questions[qid+''].attachments[id+''].id, false, (success, data) => {
+        if (success){
+            delete examJson.questions[qid+''].attachments[id+''];
+            let dom = document.querySelectorAll('[attachmentId="' + id + '"]')[0];
+            dom.parentNode.removeChild(dom);
+            if (Object.keys(examJson.questions[qid+''].attachments).length == 0){
+                document.getElementById(qid + '_question_attachments_row').style.display = 'none'
+            }
+            event.preventDefault();
+            event.stopPropagation();
+        }else{
+            M.toast({html: 'Could not delete the attachment!'});
+        }
+    });
     event.preventDefault();
     event.stopPropagation();
 }
@@ -109,7 +117,18 @@ async function exam_uploadQAttachment(qid, id) {
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             toastInstance.dismiss();
-            M.toast({html: 'Successfully uploaded the attachment!'});
+            let respJSON = JSON.parse(this.response);
+            if (respJSON['success'] === true){
+                examJson.questions[qid + ''].attachments[id].id = respJSON['content'].id;
+                M.toast({html: 'Successfully uploaded the attachment!'});
+            }else{
+                M.toast({html: 'Could not upload the attachment!'});
+                let domentry = document.querySelectorAll('[attachmentid="' + id + '"]')[0];
+                document.getElementById(qid + '_question_attachments').removeChild(domentry);
+                examJson.questions[qid+''].attachments.splice(id, 1);
+                if (examJson.questions[qid+''].attachments.length == 0)
+                    document.getElementById(qid + '_question_attachments_row').style.display = 'none';
+            }
         }else if (this.readyState == 4 && this.status != 200 || this.readyState == 0){
             toastInstance.dismiss();
             M.toast({html: 'Could not upload the attachment!'});
