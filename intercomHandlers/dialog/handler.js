@@ -6,7 +6,7 @@ module.exports.handle = function (msg) {
     if (msg['type'] == 'open')
         result = dialog.showOpenDialogSync(msg['options']||null);
     else if (msg['type'] == 'save')
-        result = dialog.showSaveDialog(msg['options']||null);
+        result = dialog.showSaveDialogSync(msg['options']||null);
     else if (msg['type'] == 'messageBox')
         return {responseInt: dialog.showMessageBoxSync(msg['options']||null)};
 
@@ -14,6 +14,8 @@ module.exports.handle = function (msg) {
         return {};
 
     let toReturn = [];
+    if (!Array.isArray(result))
+        result = [result];
     for (let p of result){
         toReturn.push({
             'path': p,

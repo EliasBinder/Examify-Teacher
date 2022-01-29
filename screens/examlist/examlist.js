@@ -178,3 +178,32 @@ function deleteExam_submit() {
         }
     });
 }
+
+
+function exportExam(id) {
+    apiCall('GET', null, 'exam/' + id + '/getpackage', false, async (success, json) => {
+        if (success) {
+            let examStr = JSON.stringify(json, null, '  ');
+            let dialogResult = await showDialogSync('save', {
+                'title': 'Save Exam',
+                'filters': [
+                    {name: 'json', extensions: ['json']}
+                ],
+                'properties': [
+                    'createDirectory', 'showOverwriteConfirmation'
+                ]
+            });
+            console.log(dialogResult);
+            if (Object.keys(dialogResult).length == 1){
+                let x = dialogResult[Object.keys(dialogResult)[0]];
+                let result = await writeToFile(x.path, examStr);
+                if (result){
+                    M.toast({html: 'Exam exported!'});
+                }else {
+                    M.toast({html: 'Failed to export the exam!'});
+                }
+            }
+        } else
+            M.toast({html: 'Could not download the exam!'});
+    });
+}

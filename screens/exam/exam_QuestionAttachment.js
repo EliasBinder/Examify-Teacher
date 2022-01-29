@@ -24,7 +24,7 @@ async function exam_addQAttachment(qid, type) {
         typeImage = 'insert_drive_file';
     }
 
-    let dialogResult = await openDialogSync('open', {
+    let dialogResult = await showDialogSync('open', {
         'title': 'Add an image',
         'filters': filters,
         'properties': [

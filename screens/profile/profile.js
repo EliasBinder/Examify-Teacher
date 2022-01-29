@@ -23,7 +23,7 @@ function profile_resetImage() {
 }
 
 async function profile_setImage() {
-    let dialogResult = await openDialogSync('open', {
+    let dialogResult = await showDialogSync('open', {
         'title': 'Add an image',
         'filters': [
             {

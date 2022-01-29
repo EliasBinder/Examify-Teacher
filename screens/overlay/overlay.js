@@ -45,13 +45,13 @@ function domLoadListenerAdd(func) {
 }
 
 
-function openDialogSync(type, options){
-    return new Promise((resolve, reject) => {
+function showDialogSync(type, options){
+    return new Promise((resolve) => {
         window.intercom.receive('dialog', (json) => {
             resolve(json);
         });
         window.intercom.send('dialog', {
-            'type': 'open',
+            'type': type,
             'options': options
         });
     });
@@ -166,6 +166,31 @@ function setWindowEvent(event, callbackFunctionName) {
         window.intercom.send('registerWindowEvent', {
             'callbackFunc': callbackFunctionName,
             'event': event
+        });
+    });
+}
+
+function writeToFile(path, content) {
+    return new Promise(resolve => {
+        window.intercom.receive('filesystem', (json) => {
+            resolve(json);
+        });
+        window.intercom.send('filesystem', {
+            'type': 'write',
+            'path': path,
+            'content': content
+        });
+    });
+}
+
+function readFromFile(path) {
+    return new Promise(resolve => {
+        window.intercom.receive('filesystem', (json) => {
+            resolve(json.content);
+        });
+        window.intercom.send('filesystem', {
+            'type': 'read',
+            'path': path
         });
     });
 }
