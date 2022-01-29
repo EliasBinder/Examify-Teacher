@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain} = require('electron')
+const { app, dialog, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const intercom = require('./intercom')
+const cache = require('./cache')
 
 let win = null;
 
@@ -14,6 +15,8 @@ const createWindow = () => {
     })
 
     win.loadFile(path.join(__dirname, 'screens', 'overlay', 'overlay.html'))
+
+    cache.mainWin = win
 }
 
 app.whenReady().then(() => {

@@ -119,6 +119,30 @@ function apiCall(method, content = null, path, inBackground = true, callback) {
         request.send();
 }
 
+function apiCallSync(method, content = null, path) {
+    return new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let respJSON = JSON.parse(this.response);
+                if (respJSON['success'] === true){
+                    resolve(respJSON['content']);
+                }else{
+                    reject();
+                }
+            }else if (this.readyState == 4 && this.status != 200 || this.readyState == 0){
+                reject();
+            }
+        };
+        request.open(method, connection.url + path, false);
+        if (content != null) {
+            request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            request.send(JSON.stringify(content));
+        }else
+            request.send();
+    });
+}
+
 function getProfilePackage() {
     apiCall('GET', null, 'profile/package', false, (success, json) => {
         if (success) {
@@ -133,3 +157,15 @@ function getProfilePackage() {
 document.addEventListener("DOMContentLoaded", function(event) {
     getProfilePackage();
 });
+
+function setWindowEvent(event, callbackFunctionName) {
+    return new Promise(resolve => {
+        window.intercom.receive('registerWindowEvent', (json) => {
+            resolve(json);
+        });
+        window.intercom.send('registerWindowEvent', {
+            'callbackFunc': callbackFunctionName,
+            'event': event
+        });
+    });
+}

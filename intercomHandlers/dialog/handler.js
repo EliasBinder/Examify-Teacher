@@ -5,8 +5,10 @@ module.exports.handle = function (msg) {
     let result = null;
     if (msg['type'] == 'open')
         result = dialog.showOpenDialogSync(msg['options']||null);
-    else if (msg('type') == 'save')
+    else if (msg['type'] == 'save')
         result = dialog.showSaveDialog(msg['options']||null);
+    else if (msg['type'] == 'messageBox')
+        return {responseInt: dialog.showMessageBoxSync(msg['options']||null)};
 
     if (typeof result === 'undefined')
         return {};
