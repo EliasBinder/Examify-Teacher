@@ -111,3 +111,17 @@
 .ql-textGap:after {
     content: "[T]";
 }
+
+.dragndrop{
+    position: absolute;
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+}
+
+.dragndrop_ondrag{
+    background-color: #e1f5fe;
+    transition: background-color .6s linear;
+}

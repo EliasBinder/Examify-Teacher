@@ -207,3 +207,72 @@ function exportExam(id) {
             M.toast({html: 'Could not download the exam!'});
     });
 }
+
+function addDragndrop(){
+    let dragndropDiv = document.getElementById('dragndrop');
+
+    dragndropDiv.addEventListener('drag', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }, false);
+
+    dragndropDiv.addEventListener('dragstart', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }, false);
+
+    dragndropDiv.addEventListener('dragend', function (e) {
+        dragndropDiv.classList.remove('dragndrop_ondrag');
+        e.preventDefault();
+        e.stopPropagation();
+    }, false);
+
+    dragndropDiv.addEventListener('dragover', function (e) {
+        dragndropDiv.classList.add('dragndrop_ondrag');
+        e.preventDefault();
+        e.stopPropagation();
+    }, false);
+
+    dragndropDiv.addEventListener('dragenter', function (e) {
+        dragndropDiv.classList.add('dragndrop_ondrag');
+        e.preventDefault();
+        e.stopPropagation();
+    }, false);
+
+    dragndropDiv.addEventListener('dragleave', function (e) {
+        dragndropDiv.classList.remove('dragndrop_ondrag');
+        e.preventDefault();
+        e.stopPropagation();
+    }, false);
+
+    dragndropDiv.addEventListener('drop', function (e) {
+        dragndropDiv.classList.remove('dragndrop_ondrag');
+        let files = e.dataTransfer.files;
+        e.preventDefault();
+        e.stopPropagation();
+        applyDragndrop(files);
+    }, false);
+}
+addDragndrop();
+
+function applyDragndrop(files) {
+    for (let file of files){
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            try{
+                let examJson = JSON.parse(this.result);
+                apiCall('PUT', examJson, 'examlist/import', false, (success, data) => {
+                    if (success){
+                        retrieveExamlist();
+                        renderExams(examlist);
+                    }else{
+                        M.toast({html: 'Could not import the exam file!'});
+                    }
+                });
+            }catch (e){
+                M.toast({html: 'Invalid exam file!'});
+            }
+        }
+        reader.readAsText(file);
+    }
+}
