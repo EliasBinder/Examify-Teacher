@@ -4,6 +4,9 @@ curActionQuestionID = -1;
 
 function exam_removeQuestion(event, qid) {
     event.stopPropagation();
+    if (Object.keys(examJson.questions).length == 1){
+        return;
+    }
     let questionTitle = examJson.questions[qid+''].title;
     document.getElementById('exam_modal_deleteQuestion_body').innerText = 'Are you sure that you want to delete the question \'' + questionTitle + '\'?';
     curActionQuestionID = qid;

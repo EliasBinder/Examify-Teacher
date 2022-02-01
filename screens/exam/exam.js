@@ -26,6 +26,31 @@ domLoadListenerAdd(() => {
             document.getElementById('exam_modal_preview_video_video').play();
         }
     });
+    M.Modal.init(document.querySelectorAll('#exam_modal_editAnswerType_text'), {
+        onCloseStart: () => {
+            exam_AType_updateTextAnswer();
+        }
+    });
+    M.Modal.init(document.querySelectorAll('#exam_modal_editAnswerType_cloze'), {
+        onCloseStart: () => {
+            exam_AType_updateClozeAnswer();
+        }
+    });
+    M.Modal.init(document.querySelectorAll('#exam_modal_editAnswerType_multiplechoice'), {
+        onCloseStart: () => {
+            exam_AType_updateMultipleChoiceAnswer();
+        }
+    });
+    M.Modal.init(document.querySelectorAll('#exam_modal_editAnswerType_audio'), {
+        onCloseStart: () => {
+            exam_AType_updateAudioAnswer();
+        }
+    });
+    M.Modal.init(document.querySelectorAll('#exam_modal_editAnswerType_file'), {
+        onCloseStart: () => {
+            exam_AType_updateFileAnswer();
+        }
+    })
     M.Modal.init(document.querySelectorAll('.modal.mautoinit'));
 });
 

@@ -107,3 +107,7 @@
 .toast-stay{
     display: block !important;
 }
+
+.ql-textGap:after {
+    content: "[T]";
+}

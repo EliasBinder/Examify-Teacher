@@ -31,9 +31,6 @@
     <div class="row center-align">
         <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Question</a>
     </div>
-    <div class="row center-align">
-        <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">link</i>Link Question From Another Exam</a>
-    </div>
 </div>
 
 
@@ -80,7 +77,7 @@
 
 
 
-<div id="exam_modal_editAnswerType_text" class="modal mautoinit">
+<div id="exam_modal_editAnswerType_text" class="modal">
     <div class="modal-content">
         <h4>Edit Text Answer</h4>
         <p>
@@ -116,33 +113,17 @@
     </div>
 </div>
 
-<div id="exam_modal_editAnswerType_multiplechoice" class="modal mautoinit">
+<div id="exam_modal_editAnswerType_cloze" class="modal">
     <div class="modal-content">
-        <h4>Edit Multiple Choice Answer</h4>
+        <h4>Edit Cloze Answer</h4>
         <p>
         <ul class="collapsible">
             <li class="active">
-                <div class="collapsible-header">Options</div>
+                <div class="collapsible-header">Pattern</div>
                 <div class="collapsible-body">
                     <div class="switch">
-                        <div class="row valign-wrapper">
-                            <div class="col s7" id="exam_modal_editAnswerType_multiplechoice_option_1">
-                                <div class="input-field">
-                                    <input placeholder="Text for Option 1" value="" id="exam_modal_editAnswerType_multiplechoice_option_1_value" type="text" class="validate">
-                                    <label class="active" for="exam_modal_editAnswerType_multiplechoice_option_1_value">Option 1</label>
-                                </div>
-                            </div>
-                            <div class="col s5 right-align">
-                                <label>
-                                    is False
-                                    <input type="checkbox" id="exam_modal_editAnswerType_multiplechoice_option_1_isCorrect" onchange="">
-                                    <span class="lever"></span>
-                                    is True
-                                </label>
-                            </div>
-                        </div>
                         <div class="row">
-                            <a href="" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Option</a>
+                            <div id="exam_modal_editAnswerType_cloze_quill"></div>
                         </div>
                     </div>
                 </div>
@@ -155,7 +136,48 @@
     </div>
 </div>
 
-<div id="exam_modal_editAnswerType_audio" class="modal mautoinit">
+<div id="exam_modal_editAnswerType_multiplechoice" class="modal">
+    <div class="modal-content">
+        <h4>Edit Multiple Choice Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li class="active">
+                <div class="collapsible-header">Options</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row" id="exam_modal_editAnswerType_multiplechoice_addOptionRow">
+                            <a href="javascript:exam_AType_multipleChoice_addOption()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Option</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
+    </div>
+</div>
+<template id="exam_modal_editAnswerType_multiplechoice_option">
+    <div class="row valign-wrapper" multipleChoiceOption="1">
+        <div class="col s7" id="exam_modal_editAnswerType_multiplechoice_option_%id%">
+            <div class="input-field">
+                <input placeholder="Text for Option %id%" value="" id="exam_modal_editAnswerType_multiplechoice_option_%id%_value" type="text" class="validate">
+                <label class="active" for="exam_modal_editAnswerType_multiplechoice_option_%id%_value">Option %id%</label>
+            </div>
+        </div>
+        <div class="col s5 right-align">
+            <label>
+                is False
+                <input type="checkbox" id="exam_modal_editAnswerType_multiplechoice_option_%id%_isCorrect" onchange="">
+                <span class="lever"></span>
+                is True
+            </label>
+        </div>
+    </div>
+</template>
+
+<div id="exam_modal_editAnswerType_audio" class="modal">
     <div class="modal-content">
         <h4>Edit Audio Recording Answer</h4>
         <p>
@@ -191,7 +213,7 @@
     </div>
 </div>
 
-<div id="exam_modal_editAnswerType_file" class="modal mautoinit">
+<div id="exam_modal_editAnswerType_file" class="modal">
     <div class="modal-content">
         <h4>Edit File Upload Answer</h4>
         <p>
