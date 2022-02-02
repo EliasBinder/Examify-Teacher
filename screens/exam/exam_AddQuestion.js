@@ -56,8 +56,7 @@ function exam_addQuestion(){
         content: [{
             insert: "\n"
         }],
-        attachments: [],
-        attachmentsCounter: 0,
+        attachments: {},
         answer_types: {},
         answer_typesCounter: 0,
         answer_typesLatest: -1,
@@ -79,13 +78,12 @@ function importQuestion(id) {
     let questionTemplate = document.createElement('template');
     questionTemplate.innerHTML = questionHTML;
     document.getElementById('exam_questionsList').appendChild(questionTemplate.content.firstChild);
-    examJson.questions[id].attachmentsCounter = examJson.questions[id].attachments.length;
     examJson.questions[id].answer_typesCounter = Object.keys(examJson.questions[id].answer_types).length;
     initQuill(id+'', document.getElementById(id + '-quill-container'));
     examJson.questions[id].quill_questionText.setContents(new Delta(examJson.questions[id].content));
     M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
-    for (let attachmentid = 0; attachmentid < examJson.questions[id].attachmentsCounter; attachmentid++){
+    for (let attachmentid of Object.keys(examJson.questions[id].attachments)){
         exam_importQAttachment(id, attachmentid);
     }
 }
