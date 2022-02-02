@@ -118,10 +118,10 @@
     width: 100vw;
     height: 100vh;
     left: 0;
-    top: 0;
+    top: 65px;
 }
 
 .dragndrop_ondrag{
-    background-color: #e1f5fe;
+    background-color: #90caf9;
     transition: background-color .6s linear;
 }
