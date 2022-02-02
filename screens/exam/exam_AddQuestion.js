@@ -86,24 +86,33 @@ function importQuestion(id) {
     for (let attachmentid of Object.keys(examJson.questions[id].attachments)){
         exam_importQAttachment(id, attachmentid);
     }
+    let firstAType = linkATypes(id);
+    exam_importAType(id, firstAType);
+    if (examJson.questions[id].nextID != -1)
+        importQuestion(examJson.questions[id].nextID);
 }
 
 function linkQuestions() {
     let prevID = -1;
+    let firstID;
     examJson.curQuestionId = Object.keys(examJson.questions).length + 1;
     for (let i = 1; i < examJson.curQuestionId; i++) {
         for (let qid of Object.keys(examJson.questions)) {
             if (examJson.questions[qid].pos == i) {
+                if (i == 1) {
+                    firstID = qid;
+                }
                 examJson.questions[qid].previousID = prevID;
                 examJson.questions[qid].nextID = -1;
                 if (prevID != -1) {
                     examJson.questions[prevID].nextID = qid;
                 }
                 prevID = qid;
-                if (i == examJson.curQuestionId - 1){ // FIX
+                if (i == examJson.curQuestionId - 1) {
                     examJson.latestQuestionId = parseInt(qid);
                 }
             }
         }
     }
+    return firstID;
 }

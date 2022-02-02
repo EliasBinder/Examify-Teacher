@@ -79,10 +79,8 @@ function retrieveExamPackage(){
         if (success) {
             examJson = json;
             document.getElementById('exam_title').innerText = json.title;
-            for (let questionKey of Object.keys(json.questions)){
-                importQuestion(questionKey);
-            }
-            linkQuestions();
+            let firstQuestion = linkQuestions();
+            importQuestion(firstQuestion);
         }else
             M.toast({html: 'Could not download the exam!'});
     });

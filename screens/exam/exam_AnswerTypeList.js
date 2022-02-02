@@ -13,8 +13,29 @@ if (typeof exam_multipleChoiceATypeOptions !== 'undefined'){
 }
 exam_multipleChoiceATypeOptions = 0;
 
-function exam_AType_initClozeAnswerQuill() {
+if (typeof AnswerTypesMap !== 'undefined'){
+    var AnswerTypesMap;
+}
+AnswerTypesMap = [
+    {
+        repType: 'article',
+        repName: 'Text'
+    }, {
+        repType: 'article',
+        repName: 'Cloze'
+    }, {
+        repType: 'check_box',
+        repName: 'Multiple Choice'
+    }, {
+        repType: 'mic',
+        repName: 'Audio Recording'
+    }, {
+        repType: 'insert_drive_file',
+        repName: 'File Upload'
+    }
+]
 
+function exam_AType_initClozeAnswerQuill() {
     var Embed = Quill.import('blots/embed');
     class QuillInput extends Embed {
         static create(value) {
@@ -78,24 +99,8 @@ exam_AType_initClozeAnswerQuill();
 function exam_addAType(qid, type){
     document.getElementById(qid + '_answer_list_row').style.removeProperty('display');
     let answerTypeHTML = document.getElementById('exam_answerTypeTemplate').innerHTML;
-    let repType;
-    let repName;
-    if (type == 0) { //Text
-        repType = 'article';
-        repName = 'Text';
-    }else if (type == 1){ //Cloze
-        repType = 'article';
-        repName = 'Cloze';
-    }else if (type == 2){ //Multiple Choice
-        repType = 'check_box';
-        repName = 'Multiple Choice';
-    }else if (type == 3){ //Audio Recording
-        repType = 'mic';
-        repName = 'Audio Recording';
-    }else if (type == 4){ //File Upload
-        repType = 'insert_drive_file'
-        repName = 'File Upload';
-    }
+    let repType = AnswerTypesMap[type].repType;
+    let repName = AnswerTypesMap[type].repName;
     let id = examJson.questions[qid+''].answer_typesCounter;
     answerTypeHTML = answerTypeHTML.replaceAll('%type%', repType)
         .replaceAll('%name%', repName)
@@ -125,6 +130,50 @@ function exam_addAType(qid, type){
         examJson.questions[qid+''].answer_types[previous].nextID = id;
     examJson.questions[qid+''].answer_typesLatest = id;
     examJson.questions[qid+''].answer_typesCounter ++;
+}
+
+function exam_importAType(qid, id) {
+    let answerType = examJson.questions[qid].answer_types[id];
+    document.getElementById(qid + '_answer_list_row').style.removeProperty('display');
+    let answerTypeHTML = document.getElementById('exam_answerTypeTemplate').innerHTML;
+    let repType = AnswerTypesMap[answerType.type].repType;
+    let repName = AnswerTypesMap[answerType.type].repName;
+    answerTypeHTML = answerTypeHTML.replaceAll('%type%', repType)
+        .replaceAll('%name%', repName)
+        .replaceAll('%id%', id)
+        .replaceAll('%qid%', qid)
+        .trim();
+    let answerTypeTemplate = document.createElement('template');
+    answerTypeTemplate.innerHTML = answerTypeHTML;
+    document.getElementById(qid + '_answer_list').appendChild(answerTypeTemplate.content.firstChild);
+    if (answerType.nextID != -1)
+        exam_importAType(qid, answerType.nextID);
+}
+
+function linkATypes(qid) {
+    let prevID = -1;
+    let firstID;
+    examJson.questions[qid].answer_typesCounter = Object.keys(examJson.questions[qid].answer_types).length;
+    for (let i = 1; i <= examJson.questions[qid].answer_typesCounter; i++) {
+        for (let answerTypeID of Object.keys(examJson.questions[qid].answer_types)) {
+            let answerType = examJson.questions[qid].answer_types[answerTypeID];
+            if (answerType.pos == i) {
+                if (i == 1) {
+                    firstID = answerTypeID;
+                }
+                examJson.questions[qid].answer_types[answerTypeID].previousID = prevID;
+                examJson.questions[qid].answer_types[answerTypeID].nextID = -1;
+                if (prevID != -1) {
+                    examJson.questions[qid].answer_types[prevID].nextID = qid;
+                }
+                prevID = answerTypeID;
+                if (i == examJson.questions[qid].answer_typesCounter) {
+                    examJson.questions[qid].answer_typesLatest = parseInt(answerTypeID);
+                }
+            }
+        }
+    }
+    return firstID;
 }
 
 function exam_AType_MoveUp(qid, aID, event) {
