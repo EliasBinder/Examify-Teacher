@@ -8,11 +8,6 @@ if (typeof exam_clozeQuillAType !== 'undefined'){
 }
 exam_clozeQuillAType;
 
-if (typeof Delta !== 'undefined'){
-    var Delta;
-}
-Delta = Quill.import('delta');
-
 if (typeof exam_multipleChoiceATypeOptions !== 'undefined'){
     var exam_multipleChoiceATypeOptions;
 }

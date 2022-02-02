@@ -69,8 +69,43 @@ function exam_addQuestion(){
     initQuill(examJson.curQuestionId+'', document.getElementById(examJson.curQuestionId + '-quill-container'));
     examJson.latestQuestionId = examJson.curQuestionId;
     examJson.curQuestionId ++;
-    let elems = document.querySelectorAll('.dropdown-trigger');
-    M.Dropdown.init(elems);
-    let elems2 = document.querySelectorAll('.collapsible');
-    M.Collapsible.init(elems2);
+    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
+    M.Collapsible.init(document.querySelectorAll('.collapsible'));
+}
+
+function importQuestion(id) {
+    let questionHTML = document.getElementById('exam_questionTemplate').innerHTML;
+    questionHTML = questionHTML.replaceAll('%qid%', id).trim();
+    let questionTemplate = document.createElement('template');
+    questionTemplate.innerHTML = questionHTML;
+    document.getElementById('exam_questionsList').appendChild(questionTemplate.content.firstChild);
+    examJson.questions[id].attachmentsCounter = examJson.questions[id].attachments.length;
+    examJson.questions[id].answer_typesCounter = Object.keys(examJson.questions[id].answer_types).length;
+    initQuill(id+'', document.getElementById(id + '-quill-container'));
+    examJson.questions[id].quill_questionText.setContents(new Delta(examJson.questions[id].content));
+    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
+    M.Collapsible.init(document.querySelectorAll('.collapsible'));
+    for (let attachmentid = 0; attachmentid < examJson.questions[id].attachmentsCounter; attachmentid++){
+        exam_importQAttachment(id, attachmentid);
+    }
+}
+
+function linkQuestions() {
+    let prevID = -1;
+    examJson.curQuestionId = Object.keys(examJson.questions).length + 1;
+    for (let i = 1; i < examJson.curQuestionId; i++) {
+        for (let qid of Object.keys(examJson.questions)) {
+            if (examJson.questions[qid].pos == i) {
+                examJson.questions[qid].previousID = prevID;
+                examJson.questions[qid].nextID = -1;
+                if (prevID != -1) {
+                    examJson.questions[prevID].nextID = qid;
+                }
+                prevID = qid;
+                if (i == examJson.curQuestionId - 1){ // FIX
+                    examJson.latestQuestionId = parseInt(qid);
+                }
+            }
+        }
+    }
 }

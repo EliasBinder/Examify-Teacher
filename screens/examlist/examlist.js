@@ -263,6 +263,9 @@ function applyDragndrop(files) {
                 let examJson = JSON.parse(this.result);
                 apiCall('PUT', examJson, 'examlist/import', false, (success, data) => {
                     if (success){
+                        document.getElementById('navbar_search').style.display = 'none';
+                        document.getElementById('search').value = '';
+                        cancelSearch();
                         retrieveExamlist();
                         renderExams(examlist);
                     }else{

@@ -1,38 +1,40 @@
-async function exam_addQAttachment(qid, type) {
-    let filters;
-    let typeImage;
-
-    if (type == 0) { //image
-        filters = [
+if (typeof AttachmentsMap !== 'undefined'){
+    var AttachmentsMap;
+}
+AttachmentsMap = [
+    {
+        filters: [
             {name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'apng', 'avif', 'svg', 'webp']}
-        ];
-        typeImage = 'image';
-    }else if (type == 1) { //video
-        filters = [
+        ],
+        typeImage: 'image'
+    }, {
+        filters: [
             {name: 'Video', extensions: ['webm', 'mp4']}
-        ];
-        typeImage = 'movie';
-    }else if (type == 2) { //audio
-        filters = [
+        ],
+        typeImage: 'movie'
+    }, {
+        filters: [
             {name: 'Audio', extensions: ['wav', 'mp3', 'vorbis', 'aac']}
-        ];
-        typeImage = 'headphones';
-    }else if (type == 3) { //file
-        filters = [
+        ],
+        typeImage: 'headphones'
+    }, {
+        filters: [
             {name: 'All Files', extensions: ['*']}
-        ];
-        typeImage = 'insert_drive_file';
+        ],
+        typeImage: 'insert_drive_file'
     }
+];
 
+async function exam_addQAttachment(qid, type) {
+    let filters = AttachmentsMap[type].filters;
+    let typeImage = AttachmentsMap[type].typeImage;
     let dialogResult = await showDialogSync('open', {
-        'title': 'Add an image',
+        'title': 'Add an attachment',
         'filters': filters,
         'properties': [
             'openFile', 'multiSelections'
         ]
     });
-    console.log('dialogResult: ');
-    console.log(dialogResult)
     if (Object.keys(dialogResult).length != 0){
         document.getElementById(qid + '_question_attachments_row').style.removeProperty('display');
         for (let x of dialogResult){
@@ -54,6 +56,20 @@ async function exam_addQAttachment(qid, type) {
             examJson.questions[qid+''].attachmentsCounter ++;
         }
     }
+}
+
+function exam_importQAttachment(qid, id) {
+    document.getElementById(qid + '_question_attachments_row').style.removeProperty('display');
+    let attachment = examJson.questions[qid].attachments[id];
+    let questionAttachmentHTML = document.getElementById('exam_questionAttachmentTemplate').innerHTML;
+    questionAttachmentHTML = questionAttachmentHTML.replace('%type%', AttachmentsMap[attachment.type].typeImage)
+        .replace('%name%', attachment.name)
+        .replaceAll('%qid%', qid)
+        .replaceAll('%id%', id)
+        .trim();
+    let questionAttachmentTemplate = document.createElement('template');
+    questionAttachmentTemplate.innerHTML = questionAttachmentHTML;
+    document.getElementById(qid + '_question_attachments').appendChild(questionAttachmentTemplate.content.firstChild);
 }
 
 function exam_previewQAttachment(qid, id){

@@ -1,5 +1,10 @@
 //{import overlay/template/navigation.js}
 //{import ../resources/QuillJs/script.js}
+if (typeof Delta !== 'undefined'){
+    var Delta;
+}
+Delta = Quill.import('delta');
+
 domLoadListenerAdd(() => {
     M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
@@ -70,15 +75,19 @@ if (typeof examChanges !== 'undefined'){
 examChanges = {};
 
 function retrieveExamPackage(){
-    apiCall('GET', null, 'exam/getpackage?examid=' + exam_refID, false, (success, json) => {
+    apiCall('GET', null, 'exam/' + exam_refID + '/getpackage', false, (success, json) => {
         if (success) {
             examJson = json;
-            //TODO: sync ui with examJson
+            document.getElementById('exam_title').innerText = json.title;
+            for (let questionKey of Object.keys(json.questions)){
+                importQuestion(questionKey);
+            }
+            linkQuestions();
         }else
             M.toast({html: 'Could not download the exam!'});
     });
 }
-//retrieveExamPackage(); TODO
+retrieveExamPackage();
 
 
 
