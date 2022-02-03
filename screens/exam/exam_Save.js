@@ -55,7 +55,7 @@ function saveExamSync() {
             if (examChanges[key].hasOwnProperty('content'))
                 content[key].content = examChanges[key].content.new;
         }
-        apiCallSync('PATCH', content, 'exam/' + exam_refID + '/updatetext').then(json => {
+        apiCallSync('PATCH', content, 'exam/' + exam_referenceID + '/updatetext').then(json => {
             examChanges = {};
             document.getElementById('exam_floatingbtn').style.display = 'none';
             resolve(true);
@@ -75,7 +75,7 @@ function saveExamAsync() {
         if (examChanges[key].hasOwnProperty('content'))
             content[key].content = examChanges[key].content.new;
     }
-    apiCall('PATCH', content, 'exam/' + exam_refID + '/updatetext', false, (success, json) => {
+    apiCall('PATCH', content, 'exam/' + exam_referenceID + '/updatetext', false, (success, json) => {
         if (success){
             examChanges = {};
             document.getElementById('exam_floatingbtn').style.display = 'none';

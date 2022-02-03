@@ -1,19 +1,19 @@
 //{import overlay/template/navigation.js}
 
-if (typeof exam_refID === 'undefined')
-    var exam_refID;
+if (typeof exam_referenceID === 'undefined')
+    var exam_referenceID;
 
 if (typeof examlist === 'undefined')
     var examlist;
 examlist = {};
 
-if (typeof curRenderedExams === 'undefined')
-    var curRenderedExams;
-curRenderedExams = {};
+if (typeof currentlyRenderedExams === 'undefined')
+    var currentlyRenderedExams;
+currentlyRenderedExams = {};
 
-if (typeof curActionExamID === 'undefined')
-    var curActionExamID;
-curActionExamID = -1;
+if (typeof currentExamID === 'undefined')
+    var currentExamID;
+currentExamID = -1;
 
 if (typeof shareExam_chipsInput === 'undefined')
     var shareExam_chipsInput;
@@ -41,7 +41,7 @@ function toggleSearch(){
 }
 
 function openExam(examID){
-    exam_refID = examID;
+    exam_referenceID = examID;
     render('exam', 'main');
 }
 
@@ -66,7 +66,7 @@ function createExam_submit() {
         'name': document.getElementById('modal-create-newname').value.trim()
     }, 'examlist/exam', false, (success, json) => {
         if (success) {
-            exam_refID = json['examID'];
+            exam_referenceID = json['examID'];
             render('exam', 'main');
         }else{
             M.toast({html: 'Could not create a new exam!'});
@@ -111,7 +111,7 @@ function renderExams(exams) {
         dom_curRow.appendChild(examEntityTemplate.content.firstChild);
     }
 
-    curRenderedExams = exams;
+    currentlyRenderedExams = exams;
 }
 
 function search() {
@@ -133,7 +133,7 @@ function cancelSearch() {
 function renameExam(id){
     document.getElementById('modal-rename-title').innerText = 'Rename \'' + examlist[id].name + '\'';
     document.getElementById('modal-rename-newname').value = examlist[id].name;
-    curActionExamID = id;
+    currentExamID = id;
     let modalInstance = M.Modal.getInstance(document.getElementById('modal-rename'));
     modalInstance.open();
 }
@@ -145,14 +145,14 @@ function renameExam_submit(){
     }
 
     apiCall('PATCH', {
-        'examID': curActionExamID,
+        'examID': currentExamID,
         'newName': document.getElementById('modal-rename-newname').value.trim()
     }, 'examlist/exam', false, (success, json) => {
         if (success) {
-            examlist[curActionExamID].name = json['newName'];
-            if (curRenderedExams.hasOwnProperty(curActionExamID))
-                curRenderedExams[curActionExamID].name = json['newName'];
-            renderExams(curRenderedExams);
+            examlist[currentExamID].name = json['newName'];
+            if (currentlyRenderedExams.hasOwnProperty(currentExamID))
+                currentlyRenderedExams[currentExamID].name = json['newName'];
+            renderExams(currentlyRenderedExams);
         }else{
             M.toast({html: 'Could not rename the exam!'});
         }
@@ -164,20 +164,20 @@ function renameExam_submit(){
 function deleteExam(id){
     document.getElementById('modal-delete-title').innerText = 'Delete \'' + examlist[id].name + '\'';
     document.getElementById('modal-delete-body').innerText = 'Are you sure that you want to delete the exam \'' + examlist[id].name + '\'?';
-    curActionExamID = id;
+    currentExamID = id;
     let modalInstance = M.Modal.getInstance(document.getElementById('modal-delete'));
     modalInstance.open();
 }
 
 function deleteExam_submit() {
     apiCall('DELETE', {
-        'examID': curActionExamID
+        'examID': currentExamID
     }, 'examlist/exam', false, (success, json) => {
         if (success) {
-            delete examlist[curActionExamID];
-            if (curRenderedExams.hasOwnProperty(curActionExamID))
-                delete curRenderedExams[curActionExamID];
-            renderExams(curRenderedExams);
+            delete examlist[currentExamID];
+            if (currentlyRenderedExams.hasOwnProperty(currentExamID))
+                delete currentlyRenderedExams[currentExamID];
+            renderExams(currentlyRenderedExams);
         }else{
             M.toast({html: 'Could not delete the exam!'});
         }
@@ -185,7 +185,7 @@ function deleteExam_submit() {
 }
 
 function shareExam(id) {
-    curActionExamID = id;
+    currentExamID = id;
     apiCall('GET', null, 'sharedexamlist/' + id, false, (success, data) => {
         if (success){
             console.log(data);
@@ -209,7 +209,7 @@ function shareExam_submit() {
     for (let chip of shareExam_chipsInput.chipsData){
         content.targets.push(chip.tag);
     }
-    apiCall('PATCH', content, 'sharedexamlist/' + curActionExamID, false, (success, data) => {
+    apiCall('PATCH', content, 'sharedexamlist/' + currentExamID, false, (success, data) => {
         if (!success){
             M.toast({html: 'Could not share that exam!'})
         }

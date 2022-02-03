@@ -1,6 +1,6 @@
-if (typeof curActionQuestionID === 'undefined')
-    var curActionQuestionID;
-curActionQuestionID = -1;
+if (typeof exam_currentQuestionID === 'undefined')
+    var exam_currentQuestionID;
+exam_currentQuestionID = -1;
 
 function exam_removeQuestion(event, qid) {
     event.stopPropagation();
@@ -9,15 +9,15 @@ function exam_removeQuestion(event, qid) {
     }
     let questionTitle = examJson.questions[qid+''].title;
     document.getElementById('exam_modal_deleteQuestion_body').innerText = 'Are you sure that you want to delete the question \'' + questionTitle + '\'?';
-    curActionQuestionID = qid;
+    exam_currentQuestionID = qid;
     let confirmModal = M.Modal.getInstance(document.getElementById('exam_modal_deleteQuestion'));
     confirmModal.open();
 }
 
 function exam_removeQuestion_confirm() {
-    apiCall('DELETE', null, 'exam/' + exam_refID + '/questions/' + curActionQuestionID, false, (success, data) => {
+    apiCall('DELETE', null, 'exam/' + exam_referenceID + '/questions/' + exam_currentQuestionID, false, (success, data) => {
         if (success){
-            let entry = examJson.questions[curActionQuestionID+''];
+            let entry = examJson.questions[exam_currentQuestionID+''];
             if (entry.previousID != -1 && entry.nextID != -1){
                 let prev = examJson.questions[entry.previousID];
                 let next = examJson.questions[entry.nextID];
@@ -33,8 +33,8 @@ function exam_removeQuestion_confirm() {
                 let next = examJson.questions[entry.nextID];
                 next.previousID = -1;
             }
-            delete examJson.questions[curActionQuestionID+''];
-            let qListItem = document.getElementById(curActionQuestionID + '_question');
+            delete examJson.questions[exam_currentQuestionID+''];
+            let qListItem = document.getElementById(exam_currentQuestionID + '_question');
             qListItem.parentElement.removeChild(qListItem);
         }else{
             M.toast({html: 'Could not delete that question!'});
@@ -62,7 +62,7 @@ function exam_moveQuestion_down(event, aID) {
             questionCounter++;
             curQuestion = examJson.questions[curQuestion].nextID;
         }
-        apiCall('PATCH', questionPos, 'exam/' + exam_refID + '/setquestionsposition', false, (success, data) => {
+        apiCall('PATCH', questionPos, 'exam/' + exam_referenceID + '/setquestionsposition', false, (success, data) => {
             if (!success) {
                 M.toast({html: 'Could not move that question!'});
                 exam_moveQuestion_up_dom(aID, a);
@@ -123,7 +123,7 @@ function exam_moveQuestion_up(event, aID) {
             questionCounter++;
             curQuestion = examJson.questions[curQuestion].nextID;
         }
-        apiCall('PATCH', questionPos, 'exam/' + exam_refID + '/setquestionsposition', false, (success, data) => {
+        apiCall('PATCH', questionPos, 'exam/' + exam_referenceID + '/setquestionsposition', false, (success, data) => {
             if (!success) {
                 M.toast({html: 'Could not move that question!'});
                 exam_moveQuestion_down_dom(aID, a);

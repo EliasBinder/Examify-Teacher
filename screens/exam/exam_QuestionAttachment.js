@@ -1,4 +1,4 @@
-if (typeof AttachmentsMap !== 'undefined'){
+if (typeof AttachmentsMap === 'undefined'){
     var AttachmentsMap;
 }
 AttachmentsMap = [
@@ -97,7 +97,7 @@ function exam_previewQAttachment(qid, id){
 }
 
 function exam_deleteQAttachment(qid, id, event) {
-    apiCall('DELETE', null, 'exam/' + exam_refID + '/questions/' + qid + '/deleteattachment/' + id, false, (success, data) => {
+    apiCall('DELETE', null, 'exam/' + exam_referenceID + '/questions/' + qid + '/deleteattachment/' + id, false, (success, data) => {
         if (success){
             delete examJson.questions[qid+''].attachments[id];
             let dom = document.querySelectorAll('[attachmentId="' + id + '"]')[0];
@@ -163,6 +163,6 @@ async function exam_uploadQAttachment(qid, id) {
         document.getElementById('toast_upload_attachment_' + id).style.width = percentUpload;
         document.getElementById('toast_upload_attachment_' + id + '_percent').innerText = percentUpload;
     }
-    xhr.open('PUT', connection.url + 'exam/' + exam_refID + '/questions/' + qid + '/addattachment', true);
+    xhr.open('PUT', connection.url + 'exam/' + exam_referenceID + '/questions/' + qid + '/addattachment', true);
     xhr.send(formData);
 }

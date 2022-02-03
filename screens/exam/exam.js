@@ -1,6 +1,6 @@
 //{import overlay/template/navigation.js}
 //{import ../resources/QuillJs/script.js}
-if (typeof Delta !== 'undefined'){
+if (typeof Delta === 'undefined'){
     var Delta;
 }
 Delta = Quill.import('delta');
@@ -59,7 +59,7 @@ domLoadListenerAdd(() => {
     M.Modal.init(document.querySelectorAll('.modal.mautoinit'));
 });
 
-if (typeof examJson !== 'undefined'){
+if (typeof examJson === 'undefined'){
     var examJson;
 }
 examJson = {
@@ -70,13 +70,13 @@ examJson = {
     questions: {}
 };
 
-if (typeof examChanges !== 'undefined'){
+if (typeof examChanges === 'undefined'){
     var examChanges;
 }
 examChanges = {};
 
 function retrieveExamPackage(){
-    apiCall('GET', null, 'exam/' + exam_refID + '/getpackage', false, (success, json) => {
+    apiCall('GET', null, 'exam/' + exam_referenceID + '/getpackage', false, (success, json) => {
         if (success) {
             examJson = json;
             document.getElementById('exam_title').innerText = json.title;

@@ -3,13 +3,10 @@ var sidenav;
 let connection = {
     "url": "http://127.0.0.1:8080/api/"
 }
-let profileInfo = {
 
-}
+let profileInfo = {}
 
-let offlineBridge = {
-
-}
+let offlineBridge = {}
 
 function render(path, containerID) {
     window.intercom.receive('reqfile', (json) => {
