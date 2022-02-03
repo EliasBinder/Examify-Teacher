@@ -1,6 +1,9 @@
 function initQuill(qid, container) {
     let quill = new Quill(container, {
         theme: 'snow',
+        readOnly: function () {
+            return !examJson.editable;
+        }(),
         placeholder: 'Type your question here...',
         modules: {
             toolbar: [
@@ -67,6 +70,7 @@ function exam_addQuestion(){
         examJson.questions[examJson.latestQuestionId+''].nextID = examJson.curQuestionId;
     initQuill(examJson.curQuestionId+'', document.getElementById(examJson.curQuestionId + '-quill-container'));
     examJson.latestQuestionId = examJson.curQuestionId;
+    exam_addAType(examJson.curQuestionId, 0);
     examJson.curQuestionId ++;
     M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
@@ -78,6 +82,9 @@ function importQuestion(id) {
     let questionTemplate = document.createElement('template');
     questionTemplate.innerHTML = questionHTML;
     document.getElementById('exam_questionsList').appendChild(questionTemplate.content.firstChild);
+    if (!examJson.editable){
+        document.getElementById(id + '_question_title_input').disabled = true;
+    }
     examJson.questions[id].answer_typesCounter = Object.keys(examJson.questions[id].answer_types).length;
     initQuill(id+'', document.getElementById(id + '-quill-container'));
     examJson.questions[id].quill_questionText.setContents(new Delta(examJson.questions[id].content));

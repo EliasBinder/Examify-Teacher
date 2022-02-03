@@ -62,6 +62,9 @@ function exam_AType_initClozeAnswerQuill() {
 
     let clozeQuill = new Quill('#exam_modal_editAnswerType_cloze_quill', {
         theme: 'snow',
+        readOnly: function () {
+            return !examJson.editable;
+        }(),
         placeholder: 'Type your cloze here. Use the [T] button above to insert a gap.',
         modules: {
             toolbar: [

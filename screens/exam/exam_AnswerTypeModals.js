@@ -63,6 +63,10 @@ function exam_AType_multipleChoice_setOptions(options) {
         exam_AType_multipleChoice_addOption();
         document.getElementById('exam_modal_editAnswerType_multiplechoice_option_' + exam_multipleChoiceATypeOptions + '_value').value = option.value;
         document.getElementById('exam_modal_editAnswerType_multiplechoice_option_' + exam_multipleChoiceATypeOptions + '_isCorrect').checked = option.isCorrect;
+        if (!examJson.editable){
+            document.getElementById('exam_modal_editAnswerType_multiplechoice_option_' + exam_multipleChoiceATypeOptions + '_value').disabled = true;
+            document.getElementById('exam_modal_editAnswerType_multiplechoice_option_' + exam_multipleChoiceATypeOptions + '_isCorrect').disabled = true;
+        }
     }
 }
 

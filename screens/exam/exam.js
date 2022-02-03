@@ -64,6 +64,7 @@ if (typeof examJson !== 'undefined'){
 }
 examJson = {
     title: '',
+    editable: true,
     curQuestionId: 1,
     latestQuestionId: -1,
     questions: {}
@@ -79,6 +80,19 @@ function retrieveExamPackage(){
         if (success) {
             examJson = json;
             document.getElementById('exam_title').innerText = json.title;
+            if (!examJson.editable){
+                document.getElementById('editableStyle').innerText = '.editable { display: none !important }';
+                document.getElementById('exam_modal_editAnswerType_text_limit_checkbox').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_text_limit').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_audio_limit_checkbox').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_audio_limit').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_file_limit_number_checkbox').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_file_limit_number').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_file_limit_size_checkbox').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_file_limit_size').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_file_spectypes_checkbox').disabled = true;
+                document.getElementById('exam_modal_editAnswerType_file_spectypes_numberinput').disabled = true;
+            }
             let firstQuestion = linkQuestions();
             importQuestion(firstQuestion);
         }else
@@ -93,9 +107,9 @@ function exam_updateQTitle(qid, newTitle){
     newTitle = newTitle.trim();
     document.getElementById(qid + '_question_title').innerHTML = '<i class="material-icons left">assignment</i>' +
         newTitle +
-        '<i class="material-icons secondary-content-collapsible red-text" onclick="exam_removeQuestion(event, \'%qid%\')">delete</i></a>' +
-        '<i class="material-icons secondary-content-collapsible blue-text" onclick="exam_moveQuestion_up(event, \'%qid%\')" style="right: 35px">arrow_upward</i>' +
-        '<i class="material-icons secondary-content-collapsible blue-text" onclick="exam_moveQuestion_down(event, \'%qid%\')" style="right: 60px">arrow_downward</i>';
+        '<i class="material-icons secondary-content-collapsible red-text editable" onclick="exam_removeQuestion(event, \'%qid%\')">delete</i></a>' +
+        '<i class="material-icons secondary-content-collapsible blue-text editable" onclick="exam_moveQuestion_up(event, \'%qid%\')" style="right: 35px">arrow_upward</i>' +
+        '<i class="material-icons secondary-content-collapsible blue-text editable" onclick="exam_moveQuestion_down(event, \'%qid%\')" style="right: 60px">arrow_downward</i>';
     if (!(examChanges.hasOwnProperty(qid))) {
         examChanges[qid] = {};
     }

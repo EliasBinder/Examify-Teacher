@@ -16,6 +16,10 @@
 
 //{import overlay/template/navigation.html}
 
+<style id="editableStyle">
+
+</style>
+
 <div class="fixed-action-btn" id="exam_floatingbtn" style="display: none">
     <a href="javascript:saveExamAsync()" class="btn-floating btn-large blue lighten-2 waves-effect waves-light">
         <i class="material-icons" style="font-size: 40px">save</i>
@@ -28,12 +32,10 @@
 
         </ul>
     </div>
-    <div class="row center-align">
+    <div class="row center-align editable">
         <a href="javascript:exam_addQuestion()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Question</a>
     </div>
 </div>
-
-
 
 
 
@@ -145,7 +147,7 @@
                 <div class="collapsible-header">Options</div>
                 <div class="collapsible-body">
                     <div class="switch">
-                        <div class="row" id="exam_modal_editAnswerType_multiplechoice_addOptionRow">
+                        <div class="row editable" id="exam_modal_editAnswerType_multiplechoice_addOptionRow">
                             <a href="javascript:exam_AType_multipleChoice_addOption()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Option</a>
                         </div>
                     </div>
@@ -321,9 +323,9 @@
         <div class="collapsible-header" id="%qid%_question_title" style="position: relative">
             <i class="material-icons left">assignment</i>
             Question %qid%
-            <i class="material-icons secondary-content-collapsible red-text" onclick="exam_removeQuestion(event, '%qid%')">delete</i></a>
-            <i class="material-icons secondary-content-collapsible blue-text" onclick="exam_moveQuestion_up(event, '%qid%')" style="right: 35px">arrow_upward</i>
-            <i class="material-icons secondary-content-collapsible blue-text" onclick="exam_moveQuestion_down(event, '%qid%')" style="right: 60px">arrow_downward</i>
+            <i class="material-icons secondary-content-collapsible red-text editable" onclick="exam_removeQuestion(event, '%qid%')">delete</i></a>
+            <i class="material-icons secondary-content-collapsible blue-text editable" onclick="exam_moveQuestion_up(event, '%qid%')" style="right: 35px">arrow_upward</i>
+            <i class="material-icons secondary-content-collapsible blue-text editable" onclick="exam_moveQuestion_down(event, '%qid%')" style="right: 60px">arrow_downward</i>
         </div>
         <div class="collapsible-body">
             <div class="row" style=" margin-bottom: 50px">
@@ -350,7 +352,7 @@
 
                 </div>
             </div>
-            <div class="row">
+            <div class="row editable">
                 <a href="#" class="dropdown-trigger btn waves-effect waves-light blue lighten-2" data-target="%qid%_question_add"><i class="material-icons left">attachment</i>Add Attachment</a>
                 <ul class="dropdown-content dropdown-aligned" id="%qid%_question_add">
                     <li><a href="javascript:exam_addQAttachment('%qid%', 0)" class="blue-text"><i class="material-icons blue-text">image</i>Image</a></li>
@@ -370,7 +372,7 @@
 
                 </div>
             </div>
-            <div class="row">
+            <div class="row editable">
                 <a class="dropdown-trigger btn blue lighten-2 waves-effect waves-light" href="#" data-target="%qid%_answer_type"><i class="material-icons left">add</i>Add answer type</a>
                 <ul class="dropdown-content dropdown-aligned" id="%qid%_answer_type">
                     <li><a href="javascript:exam_addAType('%qid%', 0)" class="blue-text"><i class="material-icons blue-text">article</i>Text</a></li>
@@ -389,7 +391,7 @@
     <a href="javascript:exam_previewQAttachment('%qid%', '%id%')" class="collection-item black-text" attachmentId="%id%">
         <i class="material-icons left blue-text lighten-2">%type%</i>
         %name%
-        <i onclick="exam_deleteQAttachment('%qid%', '%id%', event)" class="material-icons secondary-content red-text">delete</i>
+        <i onclick="exam_deleteQAttachment('%qid%', '%id%', event)" class="material-icons secondary-content red-text editable">delete</i>
     </a>
 </template>
 
@@ -397,8 +399,8 @@
     <a href="javascript:exam_AType_modify('%qid%', '%id%')" class="collection-item black-text" answerTypeId="%id%">
         <i class="material-icons left blue-text lighten-2">%type%</i>
         %name%
-        <i onclick="exam_AType_Delete('%qid%', '%id%', event)" class="material-icons secondary-content red-text">delete</i>
-        <i onclick="exam_AType_MoveUp('%qid%', '%id%', event)" class="material-icons secondary-content blue-text" style="margin-right: 5px">arrow_upward</i>
-        <i onclick="exam_AType_MoveDown('%qid%', '%id%', event)" class="material-icons secondary-content blue-text" style="margin-right: 5px">arrow_downward</i>
+        <i onclick="exam_AType_Delete('%qid%', '%id%', event)" class="material-icons secondary-content red-text editable">delete</i>
+        <i onclick="exam_AType_MoveUp('%qid%', '%id%', event)" class="material-icons secondary-content blue-text editable" style="margin-right: 5px">arrow_upward</i>
+        <i onclick="exam_AType_MoveDown('%qid%', '%id%', event)" class="material-icons secondary-content blue-text editable" style="margin-right: 5px">arrow_downward</i>
     </a>
 </template>
