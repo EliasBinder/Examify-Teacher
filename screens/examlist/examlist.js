@@ -15,6 +15,10 @@ if (typeof curActionExamID === 'undefined')
     var curActionExamID;
 curActionExamID = -1;
 
+if (typeof shareExam_chipsInput === 'undefined')
+    var shareExam_chipsInput;
+shareExam_chipsInput;
+
 domLoadListenerAdd(() => {
     let elemsFloatingBtn = document.querySelectorAll('.fixed-action-btn');
     let instancesFloatingBtn = M.FloatingActionButton.init(elemsFloatingBtn);
@@ -22,6 +26,7 @@ domLoadListenerAdd(() => {
     let instancesModal = M.Modal.init(elemsModal);
     let elemsShare = document.querySelectorAll('.chips');
     let instancesShare = M.Chips.init(elemsShare);
+    shareExam_chipsInput = instancesShare[0];
 });
 
 function toggleSearch(){
@@ -176,6 +181,40 @@ function deleteExam_submit() {
         }else{
             M.toast({html: 'Could not delete the exam!'});
         }
+    });
+}
+
+function shareExam(id) {
+    curActionExamID = id;
+    apiCall('GET', null, 'sharedexamlist/' + id, false, (success, data) => {
+        if (success){
+            console.log(data);
+            let curChipsData = shareExam_chipsInput.chipsData;
+            for (let i = 0; i < curChipsData.length; i++){
+                shareExam_chipsInput.deleteChip(i);
+            }
+            for (let user of data.targets){
+                shareExam_chipsInput.addChip({
+                    tag: user
+                });
+            }
+            let modalInstance = M.Modal.getInstance(document.getElementById('modal-share'));
+            modalInstance.open();
+        }
+    });
+}
+
+function shareExam_submit() {
+    let content = {targets:[]};
+    for (let chip of shareExam_chipsInput.chipsData){
+        content.targets.push(chip.tag);
+    }
+    apiCall('PATCH', content, 'sharedexamlist/' + curActionExamID, false, (success, data) => {
+        if (!success){
+            M.toast({html: 'Could not share that exam!'})
+        }
+        let modalInstance = M.Modal.getInstance(document.getElementById('modal-share'));
+        modalInstance.close();
     });
 }
 
