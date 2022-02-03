@@ -1,0 +1,227 @@
+<div id="exam_modal_editAnswerType_text" class="modal">
+    <div class="modal-content">
+        <h4>Edit Text Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li class="active">
+                <div class="collapsible-header">Word Limit</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_text_limit_checkbox" onchange="exam_modal_editAnswerType_text_limit_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s2" id="exam_modal_editAnswerType_text_limit_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="Number" value="100" id="exam_modal_editAnswerType_text_limit" type="number" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_text_limit">Limit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
+    </div>
+</div>
+
+
+
+<div id="exam_modal_editAnswerType_cloze" class="modal">
+    <div class="modal-content">
+        <h4>Edit Cloze Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li class="active">
+                <div class="collapsible-header">Pattern</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div id="exam_modal_editAnswerType_cloze_quill"></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
+    </div>
+</div>
+
+
+
+<div id="exam_modal_editAnswerType_multiplechoice" class="modal">
+    <div class="modal-content">
+        <h4>Edit Multiple Choice Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li class="active">
+                <div class="collapsible-header">Options</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row editable" id="exam_modal_editAnswerType_multiplechoice_addOptionRow">
+                            <a href="javascript:exam_AType_multipleChoice_addOption()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">add</i>Add Option</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
+    </div>
+</div>
+<template id="exam_modal_editAnswerType_multiplechoice_option">
+    <div class="row valign-wrapper" multipleChoiceOption="1">
+        <div class="col s7" id="exam_modal_editAnswerType_multiplechoice_option_%id%">
+            <div class="input-field">
+                <input placeholder="Text for Option %id%" value="" id="exam_modal_editAnswerType_multiplechoice_option_%id%_value" type="text" class="validate">
+                <label class="active" for="exam_modal_editAnswerType_multiplechoice_option_%id%_value">Option %id%</label>
+            </div>
+        </div>
+        <div class="col s5 right-align">
+            <label>
+                is False
+                <input type="checkbox" id="exam_modal_editAnswerType_multiplechoice_option_%id%_isCorrect" onchange="">
+                <span class="lever"></span>
+                is True
+            </label>
+        </div>
+    </div>
+</template>
+
+
+
+<div id="exam_modal_editAnswerType_audio" class="modal">
+    <div class="modal-content">
+        <h4>Edit Audio Recording Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li class="active">
+                <div class="collapsible-header">Duration Limit</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_audio_limit_checkbox" onchange="exam_modal_editAnswerType_audio_limit_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s6" id="exam_modal_editAnswerType_audio_limit_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="Duration in Seconds" value="" id="exam_modal_editAnswerType_audio_limit" type="number" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_audio_limit">Limit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
+    </div>
+</div>
+
+
+
+<div id="exam_modal_editAnswerType_file" class="modal">
+    <div class="modal-content">
+        <h4>Edit File Upload Answer</h4>
+        <p>
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header">Limit number of files</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_file_limit_number_checkbox" onchange="exam_modal_editAnswerType_file_limit_number_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s6" id="exam_modal_editAnswerType_file_limit_number_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="# of files" value="" id="exam_modal_editAnswerType_file_limit_number" type="number" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_file_limit_number">Limit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="collapsible-header">Limit size of file[s]</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_file_limit_size_checkbox" onchange="exam_modal_editAnswerType_file_limit_size_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s6" id="exam_modal_editAnswerType_file_limit_size_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="Size in MB" value="" id="exam_modal_editAnswerType_file_limit_size" type="number" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_file_limit_size">Limit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="collapsible-header">Allow only specific file types</div>
+                <div class="collapsible-body">
+                    <div class="switch">
+                        <div class="row">
+                            <div class="col s4">
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="exam_modal_editAnswerType_file_spectypes_checkbox" onchange="exam_modal_editAnswerType_file_spectypes_toggle()">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                            <div class="col s6" id="exam_modal_editAnswerType_file_spectypes_numberinput" style="display: none">
+                                <div class="input-field">
+                                    <input placeholder="pdf, docx, doc" value="" id="exam_modal_editAnswerType_file_spectypes" type="text" class="validate">
+                                    <label class="active" for="exam_modal_editAnswerType_file_limit_size">Allowed file types (separated by ',')</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
+    </div>
+</div>
