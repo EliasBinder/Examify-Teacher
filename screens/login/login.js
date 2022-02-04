@@ -9,7 +9,14 @@ function login() {
     };
     apiCall('POST', content, 'auth/login', false, (success, data) => {
         if (success){
-            getProfilePackage();
+            console.log(data.sessionid);
+            window.intercom.receive('cookie', (data) => {
+                getProfilePackage();
+            });
+            window.intercom.send('cookie', {
+                'url': connection.url,
+                'value': data.sessionid
+            });
         }else{
             M.toast({html: 'Invalid credentials!'});
             document.getElementById('login_email').value = '';

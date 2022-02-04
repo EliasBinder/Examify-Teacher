@@ -29,8 +29,8 @@ app.on('window-all-closed', () => {
 
 
 for(let channelName of Object.keys(intercom.CHANNEL_LIST)){
-    ipcMain.on(channelName, (evt, msg) => {
-        let response = intercom.process(channelName, msg)
+    ipcMain.on(channelName, async (evt, msg) => {
+        let response = await intercom.process(channelName, msg)
         if (typeof response !== 'undefined')
             win.webContents.send(channelName, response)
     })
