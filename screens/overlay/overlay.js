@@ -140,6 +140,18 @@ function apiCallSync(method, content = null, path) {
     });
 }
 
+function isLoggedIn() {
+    apiCall('GET', null, 'auth/status', false, (success, json) => {
+        if (success){
+            if (json.status == false)
+                render('login', 'main');
+            else
+                getProfilePackage();
+        }
+    });
+}
+isLoggedIn();
+
 function getProfilePackage() {
     apiCall('GET', null, 'profile/package', false, (success, json) => {
         if (success) {
@@ -150,10 +162,6 @@ function getProfilePackage() {
         }
     });
 }
-
-document.addEventListener("DOMContentLoaded", function(event) {
-    getProfilePackage();
-});
 
 function setWindowEvent(event, callbackFunctionName) {
     return new Promise(resolve => {

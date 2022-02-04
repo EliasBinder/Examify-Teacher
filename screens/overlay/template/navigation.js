@@ -4,6 +4,12 @@ domLoadListenerAdd(() => {
     sidenav = instances[0];
 });
 
+function logout() {
+    apiCall('GET', null, 'auth/logout', false, (success, data) => {
+        render('login', 'main');
+    });
+}
+
 function nav_openGitHub(){
     window.intercom.receive('openlink', (json) => {});
     window.intercom.send('openlink', {

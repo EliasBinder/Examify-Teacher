@@ -18,6 +18,12 @@
                         <div class="card-content black-text">
                             <div class="row" style="margin-bottom: 0">
                                 <div class="input-field col s12">
+                                    <input id="login_ip" type="text" value="localhost:8080" class="validate">
+                                    <label for="login_ip" class="active">Server IP</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 0">
+                                <div class="input-field col s12">
                                     <input id="login_email" type="email" class="validate">
                                     <label for="login_email">E-Mail Address</label>
                                 </div>
@@ -29,7 +35,7 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                                <a href="#" class="blue-text darken-3">Login</a>
+                                <a href="javascript:login()" class="blue-text darken-3">Login</a>
                                 <a href="javascript:render('register', 'main')" class="blue-text darken-3">Register</a>
                             </div>
                         </div>

@@ -22,6 +22,12 @@
                     <div class="card blue-grey lighten-5 z-depth-4">
                         <div class="card-content black-text">
                             <div class="row" style="margin-bottom: 0">
+                                <div class="input-field col s12">
+                                    <input id="register_ip" type="text" class="validate" value="localhost:8080">
+                                    <label for="register_ip" class="active">Server IP</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 0">
                                 <div class="input-field col s6">
                                     <input id="register_firstname" type="text" class="validate">
                                     <label for="register_firstname">First Name</label>
@@ -50,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                                <a href="#" class="blue-text darken-3">Register</a>
+                                <a href="javascript:register()" class="blue-text darken-3">Register</a>
                             </div>
                         </div>
                     </div>
