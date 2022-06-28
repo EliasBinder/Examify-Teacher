@@ -19,6 +19,7 @@ if (typeof shareExam_chipsInput === 'undefined')
     var shareExam_chipsInput;
 shareExam_chipsInput;
 
+//initialize MaterializeCss components
 domLoadListenerAdd(() => {
     let elemsFloatingBtn = document.querySelectorAll('.fixed-action-btn');
     let instancesFloatingBtn = M.FloatingActionButton.init(elemsFloatingBtn);
@@ -29,6 +30,9 @@ domLoadListenerAdd(() => {
     shareExam_chipsInput = instancesShare[0];
 });
 
+/**
+ * Toggle search bar
+ */
 function toggleSearch(){
     if (document.getElementById('navbar_search').style.display == 'none') {
         document.getElementById('navbar_search').style.display = 'block';
@@ -40,22 +44,36 @@ function toggleSearch(){
     }
 }
 
+/**
+ * open an exam
+ * @param examID exam id to open
+ */
 function openExam(examID){
     exam_referenceID = examID;
     render('exam', 'main');
 }
 
+/**
+ * create a new exam
+ */
 function createExam(){
     let modalInstance = M.Modal.getInstance(document.getElementById('modal-create'));
     modalInstance.open();
 }
 
+/**
+ * close create exam modal
+ */
 function createExam_close(){
     document.getElementById('modal-create-newname').value = 'New Exam';
     let modalInstance = M.Modal.getInstance(document.getElementById('modal-create'));
     modalInstance.close();
 }
 
+/**
+ * submit the creation of a new exam to backend
+ * @returns {boolean}
+ */
 function createExam_submit() {
     if (document.getElementById('modal-create-newname').value.trim().length == 0){
         M.toast({html: 'Invalid name for an exam'});
@@ -74,6 +92,9 @@ function createExam_submit() {
     });
 }
 
+/**
+ * get a list of all exams of the user
+ */
 function retrieveExamlist() {
     apiCall('GET', null, 'examlist', false, (success, json) => {
         if (success){
@@ -86,6 +107,10 @@ function retrieveExamlist() {
 }
 retrieveExamlist();
 
+/**
+ * render content of examlist into dom
+ * @param exams examlist to render
+ */
 function renderExams(exams) {
     document.getElementById('examlist_container').innerHTML = '';
 
@@ -114,6 +139,9 @@ function renderExams(exams) {
     currentlyRenderedExams = exams;
 }
 
+/**
+ * search for an exam
+ */
 function search() {
     let searchText = document.getElementById('search').value;
     let searchResult = {};
@@ -125,6 +153,9 @@ function search() {
     renderExams(searchResult);
 }
 
+/**
+ * cancel search
+ */
 function cancelSearch() {
     renderExams(examlist);
 }
