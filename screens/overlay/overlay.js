@@ -1,7 +1,7 @@
 var sidenav;
 
 let connection = {
-    "url": "http://127.0.0.1:8080/api/"
+    url: "http://127.0.0.1:8080/api/"
 }
 
 let profileInfo = {}
@@ -62,13 +62,13 @@ function setLoadingOverlay(newstate = false) {
         domLoading.style.display = 'none';
 }
 
-function apiCall(method, content = null, path, inBackground = true, callback) {
+function apiCall(method, content = null, path, inBackground = true, callback, useOfflineScreen = true) {
     if (!inBackground) {
         setLoadingOverlay(true);
     }
     let request = new XMLHttpRequest();
     request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             if (!inBackground) {
                 setLoadingOverlay(false);
             }
@@ -78,18 +78,22 @@ function apiCall(method, content = null, path, inBackground = true, callback) {
             }else{
                 callback(false, {});
             }
-        }else if (this.readyState == 4 && this.status != 200 || this.readyState == 0){
+        }else if (this.readyState === 4 && this.status !== 200 || this.readyState === 0){
             if (!inBackground) {
                 setLoadingOverlay(false);
             }
-            offlineBridge = {
-                'method': method,
-                'content': content,
-                'path': path,
-                'inBackground': inBackground,
-                'callback': callback
-            };
-            render('offline', 'main');
+            if (useOfflineScreen) {
+                offlineBridge = {
+                    'method': method,
+                    'content': content,
+                    'path': path,
+                    'inBackground': inBackground,
+                    'callback': callback
+                };
+                render('offline', 'main');
+            }else{
+                callback(false, {});
+            }
         }
     };
     if (inBackground) {
@@ -99,15 +103,20 @@ function apiCall(method, content = null, path, inBackground = true, callback) {
         if (!inBackground) {
             setLoadingOverlay(false);
         }
-        offlineBridge = {
-            'method': method,
-            'content': content,
-            'path': path,
-            'inBackground': inBackground,
-            'callback': callback
-        };
-        render('offline', 'main');
+        if (useOfflineScreen) {
+            offlineBridge = {
+                'method': method,
+                'content': content,
+                'path': path,
+                'inBackground': inBackground,
+                'callback': callback
+            };
+            render('offline', 'main');
+        }else{
+            callback(false, {});
+        }
     };
+    request.withCredentials = true;
     request.open(method, connection.url + path, true);
     if (content != null) {
         request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -141,13 +150,21 @@ function apiCallSync(method, content = null, path) {
 }
 
 function isLoggedIn() {
-    apiCall('GET', null, 'auth/status', false, (success, json) => {
-        if (success){
-            if (json.status == false)
+    window.intercom.receive('exchange', (data) => {
+        connection.url = data.connectionURL;
+        apiCall('GET', null, 'auth/status', false, (success, json) => {
+            if (success){
+                if (json.status == false)
+                    render('login', 'main');
+                else
+                    getProfilePackage();
+            }else{
                 render('login', 'main');
-            else
-                getProfilePackage();
-        }
+            }
+        }, false);
+    });
+    window.intercom.send('exchange', {
+        'var': 'connectionURL'
     });
 }
 isLoggedIn();
@@ -157,8 +174,6 @@ function getProfilePackage() {
         if (success) {
             profileInfo = json;
             render('examlist', 'main');
-        }else{
-            render('offline', 'main');
         }
     });
 }
@@ -206,4 +221,13 @@ function uuidv4() {
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
+}
+
+
+function listCookies() {
+    window.intercom.receive('cookie', (data) => {
+        console.log('Cookies:');
+        console.log(data);
+    });
+    window.intercom.send('cookie', {mode: 'info'});
 }

@@ -9,13 +9,13 @@ function login() {
     };
     apiCall('POST', content, 'auth/login', false, (success, data) => {
         if (success){
-            console.log(data.sessionid);
             window.intercom.receive('cookie', (data) => {
                 getProfilePackage();
             });
             window.intercom.send('cookie', {
                 'url': connection.url,
-                'value': data.sessionid
+                'value': data.sessionid,
+                'mode': 'login'
             });
         }else{
             M.toast({html: 'Invalid credentials!'});

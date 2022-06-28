@@ -4,6 +4,7 @@ let dialog = require('./intercomHandlers/dialog/handler')
 let registerWindowEvent = require('./intercomHandlers/registerWindowEvent/handler')
 let filesystem = require('./intercomHandlers/filesystem/handler')
 let cookie = require('./intercomHandlers/cookie/handler')
+let exchange = require('./intercomHandlers/exchange/handler')
 
 module.exports.CHANNEL_LIST = {
     'reqfile': reqfile,
@@ -11,7 +12,8 @@ module.exports.CHANNEL_LIST = {
     'dialog': dialog,
     'registerWindowEvent': registerWindowEvent,
     'filesystem': filesystem,
-    'cookie': cookie
+    'cookie': cookie,
+    'exchange': exchange
 };
 
 module.exports.process = async function (method, param) {

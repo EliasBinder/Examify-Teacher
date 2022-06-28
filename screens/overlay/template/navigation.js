@@ -6,7 +6,13 @@ domLoadListenerAdd(() => {
 
 function logout() {
     apiCall('GET', null, 'auth/logout', false, (success, data) => {
-        render('login', 'main');
+        window.intercom.receive('cookie', (data) => {
+            render('login', 'main');
+        });
+        window.intercom.send('cookie', {
+            'url': connection.url,
+            'mode': 'logout'
+        });
     });
 }
 

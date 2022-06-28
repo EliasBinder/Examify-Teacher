@@ -1,21 +1,35 @@
 {
-  "name": "examify-teacher",
+  "name": "Examify-Teacher",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dist_mac": "electron-builder build --mac"
+    "dist_all": "electron-builder build --mac --arm64 && electron-builder build --mac --x64 && electron-builder build --win --arm64 && electron-builder build --win --x64 && electron-builder build --linux --arm64 && electron-builder build --linux --x64",
+    "dist_mac_arm": "electron-builder build --mac --arm64",
+    "dist_mac_x64": "electron-builder build --mac --x64",
+    "dist_windows_arm": "electron-builder build --win --arm64",
+    "dist_windows_x64": "electron-builder build --win --x64",
+    "dist_linux_arm": "electron-builder build --linux --arm64",
+    "dist_linux_x64": "electron-builder build --linux --x64"
   },
   "keywords": [],
   "author": "Elias Binder",
-  "license": "Apache-2",
+  "license": "Apache-2.0",
   "devDependencies": {
-    "electron": "^15.3.0"
+    "electron": "^19.0.0",
+    "electron-builder": "^23.1.0",
+    "electron-is-packaged": "^1.0.2"
   },
   "dependencies": {
-    "shell": "^0.8.4",
+    "shell": "^0.8.6",
     "yarn": "^1.22.17"
+  },
+  "build": {
+    "appId": "examify.eliasbinder.unibz.it",
+    "mac": {
+      "icon": "resources/images/icon.icns"
+    }
   }
 }

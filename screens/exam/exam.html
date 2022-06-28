@@ -59,9 +59,9 @@
         <div class="collapsible-header" id="%qid%_question_title" style="position: relative">
             <i class="material-icons left">assignment</i>
             Question %qid%
-            <i class="material-icons secondary-content-collapsible red-text editable" onclick="exam_removeQuestion(event, '%qid%')">delete</i></a>
-            <i class="material-icons secondary-content-collapsible blue-text editable" onclick="exam_moveQuestion_up(event, '%qid%')" style="right: 35px">arrow_upward</i>
-            <i class="material-icons secondary-content-collapsible blue-text editable" onclick="exam_moveQuestion_down(event, '%qid%')" style="right: 60px">arrow_downward</i>
+            <i class="material-icons secondary-content-collapsible red-text editable" onclick="exam_removeQuestion(event, '%qid%')" style="z-index: 300">delete</i></a>
+            <i class="material-icons secondary-content-collapsible blue-text editable" onclick="exam_moveQuestion_up(event, '%qid%')" style="z-index: 300; right: 35px">arrow_upward</i>
+            <i class="material-icons secondary-content-collapsible blue-text editable" onclick="exam_moveQuestion_down(event, '%qid%')" style="z-index: 300; right: 60px">arrow_downward</i>
         </div>
         <div class="collapsible-body">
             <div class="row" style=" margin-bottom: 50px">
