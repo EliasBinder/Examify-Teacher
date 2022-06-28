@@ -1,3 +1,4 @@
+//Map of allowed answer types together with their icon
 if (typeof AnswerTypesMap === 'undefined'){
     var AnswerTypesMap;
 }
@@ -21,6 +22,11 @@ AnswerTypesMap = [
 ]
 
 
+/**
+ * Add an Answer Type to an exam
+ * @param qid question id
+ * @param type type to add
+ */
 function exam_addAType(qid, type){
     document.getElementById(qid + '_answer_list_row').style.removeProperty('display');
     let answerTypeHTML = document.getElementById('exam_answerTypeTemplate').innerHTML;
@@ -57,6 +63,11 @@ function exam_addAType(qid, type){
     examJson.questions[qid+''].answer_typesCounter ++;
 }
 
+/**
+ * Add DOM contents for an answer type of a question in examJson
+ * @param qid question id
+ * @param id answer type id
+ */
 function exam_importAType(qid, id) {
     let answerType = examJson.questions[qid].answer_types[id];
     document.getElementById(qid + '_answer_list_row').style.removeProperty('display');
@@ -75,6 +86,11 @@ function exam_importAType(qid, id) {
         exam_importAType(qid, answerType.nextID);
 }
 
+/**
+ * Fix linked list for answer types within a question
+ * @param qid question id
+ * @returns {string} id of first answer type
+ */
 function linkATypes(qid) {
     let prevID = -1;
     let firstID;
@@ -101,6 +117,12 @@ function linkATypes(qid) {
     return firstID;
 }
 
+/**
+ * move an answer type upwards
+ * @param qid question id
+ * @param aID answer type id
+ * @param event dom event to be canceled
+ */
 function exam_AType_MoveUp(qid, aID, event) {
     //before moving a (order top to bottom): d b a c
     //after  moving a (order top to bottom): d a b c
@@ -132,6 +154,12 @@ function exam_AType_MoveUp(qid, aID, event) {
     event.stopPropagation();
 }
 
+/**
+ * move an answer type upwards _ move dom content of that answer type upwards
+ * @param qid question id
+ * @param aID answer type id
+ * @param event examJson -> answer type to move
+ */
 function exam_AType_MoveUp_dom(qid, aID, a){
     let bID = a.previousID;
     let b = examJson.questions[qid+''].answer_types[bID+''];
@@ -162,6 +190,12 @@ function exam_AType_MoveUp_dom(qid, aID, a){
         examJson.questions[qid+''].answer_typesLatest = bID;
 }
 
+/**
+ * move an answer type downwards
+ * @param qid question id
+ * @param aID answer type id
+ * @param event dom event to be canceled
+ */
 function exam_AType_MoveDown(qid, aID, event) {
     //before moving a (order top to bottom): c a b d
     //after  moving a (order top to bottom): c b a d
@@ -193,6 +227,12 @@ function exam_AType_MoveDown(qid, aID, event) {
     event.stopPropagation();
 }
 
+/**
+ * move an answer type downwards _ move dom content of that answer type downwards
+ * @param qid question id
+ * @param aID answer type id
+ * @param event examJson -> answer type to move
+ */
 function exam_AType_MoveDown_dom(qid, aID, a){
     let bID = a.nextID;
     let b = examJson.questions[qid+''].answer_types[bID+''];
@@ -223,6 +263,12 @@ function exam_AType_MoveDown_dom(qid, aID, a){
         examJson.questions[qid+''].answer_typesLatest = parseInt(aID);
 }
 
+/**
+ * delete an answer type from a question
+ * @param qid question id
+ * @param id answer type id to be removed
+ * @param event event to be cancelled
+ */
 function exam_AType_Delete(qid, id, event){
     event.preventDefault();
     event.stopPropagation();

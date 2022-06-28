@@ -13,6 +13,9 @@ if (typeof exam_multipleChoice_modal_numberOfOptions === 'undefined'){
 }
 exam_multipleChoice_modal_numberOfOptions = 0;
 
+/**
+ * Utility method - initialize quill editor for the cloze answer type modal
+ */
 function exam_AType_initClozeAnswerQuill() {
     var Embed = Quill.import('blots/embed');
     class QuillInput extends Embed {
@@ -77,6 +80,11 @@ function exam_AType_initClozeAnswerQuill() {
 exam_AType_initClozeAnswerQuill();
 
 
+/**
+ * Open modal for answer type
+ * @param qid question id
+ * @param aid answer type id
+ */
 function exam_AType_modify(qid, aid){
     exam_currentAType.aid = aid;
     exam_currentAType.qid = qid;
@@ -161,6 +169,20 @@ function exam_AType_modify(qid, aid){
 }
 
 
+
+
+/**
+ *
+ *
+ * Modal functionalities
+ *
+ *
+ */
+
+
+/**
+ * text answer modal -> toggle text limit
+ */
 function exam_modal_editAnswerType_text_limit_toggle() {
     let domNumInput = document.getElementById('exam_modal_editAnswerType_text_limit_numberinput');
     if (domNumInput.style.display == 'block'){
@@ -170,6 +192,9 @@ function exam_modal_editAnswerType_text_limit_toggle() {
     }
 }
 
+/**
+ * audio answer modal -> toggle duration limit
+ */
 function exam_modal_editAnswerType_audio_limit_toggle() {
     let domNumInput = document.getElementById('exam_modal_editAnswerType_audio_limit_numberinput');
     if (domNumInput.style.display == 'block'){
@@ -179,6 +204,9 @@ function exam_modal_editAnswerType_audio_limit_toggle() {
     }
 }
 
+/**
+ * file answer modal -> toggle file number limit
+ */
 function exam_modal_editAnswerType_file_limit_number_toggle() {
     let domNumInput = document.getElementById('exam_modal_editAnswerType_file_limit_number_numberinput');
     if (domNumInput.style.display == 'block'){
@@ -188,6 +216,9 @@ function exam_modal_editAnswerType_file_limit_number_toggle() {
     }
 }
 
+/**
+ * file answer modal -> toggle file size limit
+ */
 function exam_modal_editAnswerType_file_limit_size_toggle() {
     let domNumInput = document.getElementById('exam_modal_editAnswerType_file_limit_size_numberinput');
     if (domNumInput.style.display == 'block'){
@@ -197,6 +228,9 @@ function exam_modal_editAnswerType_file_limit_size_toggle() {
     }
 }
 
+/**
+ * file answer modal -> toggle file filters
+ */
 function exam_modal_editAnswerType_file_spectypes_toggle() {
     let domNumInput = document.getElementById('exam_modal_editAnswerType_file_spectypes_numberinput');
     if (domNumInput.style.display == 'block'){
@@ -206,7 +240,9 @@ function exam_modal_editAnswerType_file_spectypes_toggle() {
     }
 }
 
-
+/**
+ * multiple choice answer modal -> add option
+ */
 function exam_AType_multipleChoice_addOption() {
     exam_multipleChoice_modal_numberOfOptions ++;
     let optionHTML = document.getElementById('exam_modal_editAnswerType_multiplechoice_option').innerHTML;
@@ -216,6 +252,10 @@ function exam_AType_multipleChoice_addOption() {
     document.getElementById('exam_modal_editAnswerType_multiplechoice_addOptionRow').parentNode.insertBefore(optionTemplate.content.firstChild, document.getElementById('exam_modal_editAnswerType_multiplechoice_addOptionRow'));
 }
 
+/**
+ * multiple choice answer modal -> initialize modal with options from examJson
+ * @param options
+ */
 function exam_AType_multipleChoice_setOptions(options) {
     exam_multipleChoice_modal_numberOfOptions = 0;
     let curDOMoptions = document.querySelectorAll('[multipleChoiceOption = "1"]');
@@ -235,6 +275,20 @@ function exam_AType_multipleChoice_setOptions(options) {
 
 
 
+
+
+/**
+ *
+ *
+ * Update examJson with modal contents
+ *
+ *
+ */
+
+
+/**
+ * text answer modal -> update text limit
+ */
 function exam_AType_updateTextAnswer() {
     if (document.getElementById('exam_modal_editAnswerType_text_limit_checkbox').checked) {
         let newWordLimit = parseInt(document.getElementById('exam_modal_editAnswerType_text_limit').value);
@@ -249,6 +303,9 @@ function exam_AType_updateTextAnswer() {
     exam_AType_upload(exam_currentAType.qid, exam_currentAType.aid);
 }
 
+/**
+ * text answer modal -> update cloze text
+ */
 function exam_AType_updateClozeAnswer() {
     let inputs = document.querySelectorAll('[clozeQuill_input = "1"]');
     let solution = [];
@@ -260,6 +317,9 @@ function exam_AType_updateClozeAnswer() {
     exam_AType_upload(exam_currentAType.qid, exam_currentAType.aid);
 }
 
+/**
+ * text answer modal -> update multiple choice options
+ */
 function exam_AType_updateMultipleChoiceAnswer() {
     let options = [];
     for (let i = 1; i <= exam_multipleChoice_modal_numberOfOptions; i++){
@@ -274,6 +334,9 @@ function exam_AType_updateMultipleChoiceAnswer() {
     exam_AType_upload(exam_currentAType.qid, exam_currentAType.aid);
 }
 
+/**
+ * audio answer modal -> update duration
+ */
 function exam_AType_updateAudioAnswer() {
     if (document.getElementById('exam_modal_editAnswerType_audio_limit_checkbox').checked) {
         let newDurationLimit = parseInt(document.getElementById('exam_modal_editAnswerType_audio_limit').value);
@@ -288,6 +351,9 @@ function exam_AType_updateAudioAnswer() {
     exam_AType_upload(exam_currentAType.qid, exam_currentAType.aid);
 }
 
+/**
+ * file answer modal -> update file limit, file size and filters
+ */
 function exam_AType_updateFileAnswer() {
     if (document.getElementById('exam_modal_editAnswerType_file_limit_number_checkbox').checked) {
         let newNumberLimit = parseInt(document.getElementById('exam_modal_editAnswerType_file_limit_number').value);
@@ -318,6 +384,16 @@ function exam_AType_updateFileAnswer() {
     exam_AType_upload(exam_currentAType.qid, exam_currentAType.aid);
 }
 
+
+
+
+
+
+/**
+ * submit changes of an answer type to server
+ * @param qid question id
+ * @param aid answer type id
+ */
 function exam_AType_upload(qid, aid) {
     apiCall('PATCH', examJson.questions[qid + ''].answer_types[aid + ''].content, 'exam/' + exam_referenceID + '/questions/' + qid + '/answertypes/' + aid + '/setproperties', false, (success, data) => {
         if (!success){

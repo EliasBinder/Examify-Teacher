@@ -1,5 +1,9 @@
 setWindowEvent('close', 'saveExam_beforeClose');
 
+/**
+ * send dialog "do you really want to quit the application -> unsafed changes"
+ * @returns {Promise<unknown>}
+ */
 function saveExam_beforeClose(){
     return new Promise(resolve => {
         if (saveExam_checkChanges_internal()) {
@@ -29,6 +33,9 @@ function saveExam_beforeClose(){
     });
 }
 
+/**
+ * check if the user has made changes to an exam -> display save button
+ */
 function saveExam_checkChanges() {
     if (saveExam_checkChanges_internal())
         document.getElementById('exam_floatingbtn').style.display = 'block';
@@ -36,6 +43,10 @@ function saveExam_checkChanges() {
         document.getElementById('exam_floatingbtn').style.display = 'none';
 }
 
+/**
+ * Utility method of checkChanges -> check if changes have been made
+ * @returns {boolean}
+ */
 function saveExam_checkChanges_internal(){
     for (let key of Object.keys(examChanges)){
         if (Object.keys(examChanges[key]).length != 0){
@@ -45,6 +56,10 @@ function saveExam_checkChanges_internal(){
     return false;
 }
 
+/**
+ * send changes to backend in a synchronous way
+ * @returns {Promise<unknown>}
+ */
 function saveExamSync() {
     return new Promise(resolve => {
         let content = {};
@@ -66,6 +81,9 @@ function saveExamSync() {
     });
 }
 
+/**
+ * send changes to backend in an asynchronous way
+ */
 function saveExamAsync() {
     let content = {};
     for (let key of Object.keys(examChanges)){

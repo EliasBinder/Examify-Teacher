@@ -25,6 +25,11 @@ AttachmentsMap = [
     }
 ];
 
+/**
+ * add question attachment to question
+ * @param qid question id
+ * @param type type of attachment to be added (image, video, ...)
+ */
 async function exam_addQAttachment(qid, type) {
     let filters = AttachmentsMap[type].filters;
     let typeImage = AttachmentsMap[type].typeImage;
@@ -62,6 +67,11 @@ async function exam_addQAttachment(qid, type) {
     }
 }
 
+/**
+ * add DOM contents for a question attachment in examJson
+ * @param qid question id
+ * @param id question attachment id
+ */
 function exam_importQAttachment(qid, id) {
     document.getElementById(qid + '_question_attachments_row').style.removeProperty('display');
     let attachment = examJson.questions[qid].attachments[id];
@@ -76,6 +86,11 @@ function exam_importQAttachment(qid, id) {
     document.getElementById(qid + '_question_attachments').appendChild(questionAttachmentTemplate.content.firstChild);
 }
 
+/**
+ * open modal to preview the question attachment
+ * @param qid question id
+ * @param id question attachment id
+ */
 function exam_previewQAttachment(qid, id){
     let attachment = examJson.questions[qid+''].attachments[id];
     if (attachment.type == 0) { //image
@@ -96,6 +111,12 @@ function exam_previewQAttachment(qid, id){
     }
 }
 
+/**
+ * delete a question attachment
+ * @param qid question id
+ * @param id question attachment id
+ * @param event events to be cancelled
+ */
 function exam_deleteQAttachment(qid, id, event) {
     apiCall('DELETE', null, 'exam/' + exam_referenceID + '/questions/' + qid + '/deleteattachment/' + id, false, (success, data) => {
         if (success){
@@ -115,6 +136,12 @@ function exam_deleteQAttachment(qid, id, event) {
     event.stopPropagation();
 }
 
+/**
+ * upload a question attachment to the server
+ * @param qid question id
+ * @param id question attachment id
+ * @returns {Promise<void>} upload progress
+ */
 async function exam_uploadQAttachment(qid, id) {
     let attachment = examJson.questions[qid + ''].attachments[id];
     let toastInstance = M.toast({

@@ -2,6 +2,11 @@ if (typeof exam_currentQuestionID === 'undefined')
     var exam_currentQuestionID;
 exam_currentQuestionID = -1;
 
+/**
+ * remove a question from the exam -> open dialog to confirm
+ * @param event event to be cancelled
+ * @param qid question id to be removed
+ */
 function exam_removeQuestion(event, qid) {
     event.stopPropagation();
     if (Object.keys(examJson.questions).length == 1){
@@ -14,6 +19,9 @@ function exam_removeQuestion(event, qid) {
     confirmModal.open();
 }
 
+/**
+ * clicking confirm on the "Do you really want to delete that question" dialog -> question gets finally deleted
+ */
 function exam_removeQuestion_confirm() {
     apiCall('DELETE', null, 'exam/' + exam_referenceID + '/questions/' + exam_currentQuestionID, false, (success, data) => {
         if (success){
@@ -42,12 +50,17 @@ function exam_removeQuestion_confirm() {
     });
 }
 
-function exam_moveQuestion_down(event, aID) {
-    //before moving a (order top to bottom): c a b d
-    //after  moving a (order top to bottom): c b a d
-    let a = examJson.questions[aID + ''];
-    if (a.nextID != -1) {
-        exam_moveQuestion_down_dom(aID, a);
+/**
+ * move a question downwards
+ * @param event event to be cancelled
+ * @param qID questionid
+ */
+function exam_moveQuestion_down(event, qID) {
+    //before moving q (order top to bottom): c q b d
+    //after  moving q (order top to bottom): c b q d
+    let q = examJson.questions[qID + ''];
+    if (q.nextID != -1) {
+        exam_moveQuestion_down_dom(qID, q);
         let questionPos = {};
         let curQuestion = null;
         for (let qid of Object.keys(examJson.questions)) {
@@ -65,7 +78,7 @@ function exam_moveQuestion_down(event, aID) {
         apiCall('PATCH', questionPos, 'exam/' + exam_referenceID + '/setquestionsposition', false, (success, data) => {
             if (!success) {
                 M.toast({html: 'Could not move that question!'});
-                exam_moveQuestion_up_dom(aID, a);
+                exam_moveQuestion_up_dom(qID, q);
             }
         });
     }
@@ -73,12 +86,17 @@ function exam_moveQuestion_down(event, aID) {
     event.stopPropagation();
 }
 
-function exam_moveQuestion_down_dom(aID, a) {
-    let bID = a.nextID;
+/**
+ * move DOM content of q question downwards
+ * @param qID question id
+ * @param q examJson reference to the the question
+ */
+function exam_moveQuestion_down_dom(qID, q) {
+    let bID = q.nextID;
     let b = examJson.questions[bID + ''];
 
-    if (a.previousID != -1) {
-        let cID = a.previousID;
+    if (q.previousID != -1) {
+        let cID = q.previousID;
         let c = examJson.questions[cID + ''];
         c.nextID = bID;
         b.previousID = cID;
@@ -88,27 +106,32 @@ function exam_moveQuestion_down_dom(aID, a) {
     if (b.nextID != -1) {
         let dID = b.nextID;
         let d = examJson.questions[dID + ''];
-        d.previousID = parseInt(aID);
-        a.nextID = dID;
+        d.previousID = parseInt(qID);
+        q.nextID = dID;
     } else {
-        a.nextID = -1;
+        q.nextID = -1;
     }
-    a.previousID = bID;
-    b.nextID = parseInt(aID);
+    q.previousID = bID;
+    b.nextID = parseInt(qID);
 
-    let domA = document.getElementById(aID + '_question');
+    let domA = document.getElementById(qID + '_question');
     let domB = document.getElementById(bID + '_question');
     domB.parentNode.insertBefore(domB, domA);
     if (examJson.latestQuestionId == bID)
-        examJson.latestQuestionId = parseInt(aID);
+        examJson.latestQuestionId = parseInt(qID);
 }
 
-function exam_moveQuestion_up(event, aID) {
+/**
+ * move a question upwards
+ * @param event event to be cancelled
+ * @param qID questionid
+ */
+function exam_moveQuestion_up(event, qID) {
     //before moving a (order top to bottom): d b a c
     //after  moving a (order top to bottom): d a b c
-    let a = examJson.questions[aID+''];
+    let a = examJson.questions[qID+''];
     if (a.previousID != -1){
-        exam_moveQuestion_up_dom(aID, a);
+        exam_moveQuestion_up_dom(qID, a);
         let questionPos = {};
         let curQuestion = null;
         for (let qid of Object.keys(examJson.questions)) {
@@ -126,7 +149,7 @@ function exam_moveQuestion_up(event, aID) {
         apiCall('PATCH', questionPos, 'exam/' + exam_referenceID + '/setquestionsposition', false, (success, data) => {
             if (!success) {
                 M.toast({html: 'Could not move that question!'});
-                exam_moveQuestion_down_dom(aID, a);
+                exam_moveQuestion_down_dom(qID, a);
             }
         });
     }
@@ -134,12 +157,17 @@ function exam_moveQuestion_up(event, aID) {
     event.stopPropagation();
 }
 
-function exam_moveQuestion_up_dom(aID, a) {
-    let bID = a.previousID;
+/**
+ * move DOM content of q question upwards
+ * @param qID question id
+ * @param q examJson reference to the the question
+ */
+function exam_moveQuestion_up_dom(qID, q) {
+    let bID = q.previousID;
     let b = examJson.questions[bID+''];
 
-    if (a.nextID != -1){
-        let cID = a.nextID;
+    if (q.nextID != -1){
+        let cID = q.nextID;
         let c = examJson.questions[cID+''];
         c.previousID = bID;
         b.nextID = cID;
@@ -149,17 +177,17 @@ function exam_moveQuestion_up_dom(aID, a) {
     if (b.previousID != -1){
         let dID = b.previousID;
         let d = examJson.questions[dID+''];
-        d.nextID = parseInt(aID);
-        a.previousID = dID;
+        d.nextID = parseInt(qID);
+        q.previousID = dID;
     }else{
-        a.previousID = -1;
+        q.previousID = -1;
     }
-    a.nextID = bID;
-    b.previousID = parseInt(aID);
+    q.nextID = bID;
+    b.previousID = parseInt(qID);
 
-    let domA = document.getElementById(aID + '_question');
+    let domA = document.getElementById(qID + '_question');
     let domB = document.getElementById(bID + '_question');
     domA.parentNode.insertBefore(domA, domB);
-    if (examJson.latestQuestionId == aID)
+    if (examJson.latestQuestionId == qID)
         examJson.latestQuestionId = bID;
 }

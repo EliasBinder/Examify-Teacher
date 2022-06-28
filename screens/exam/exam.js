@@ -5,6 +5,7 @@ if (typeof Delta === 'undefined'){
 }
 Delta = Quill.import('delta');
 
+//Initialize MaterializeCss components
 domLoadListenerAdd(() => {
     M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
@@ -59,6 +60,7 @@ domLoadListenerAdd(() => {
     M.Modal.init(document.querySelectorAll('.modal.mautoinit'));
 });
 
+
 if (typeof examJson === 'undefined'){
     var examJson;
 }
@@ -75,6 +77,9 @@ if (typeof examChanges === 'undefined'){
 }
 examChanges = {};
 
+/**
+ * Get exam content/data from backend
+ */
 function retrieveExamPackage(){
     apiCall('GET', null, 'exam/' + exam_referenceID + '/getpackage', false, (success, json) => {
         if (success) {
@@ -102,7 +107,11 @@ function retrieveExamPackage(){
 retrieveExamPackage();
 
 
-
+/**
+ * Update the title of a question
+ * @param qid question id
+ * @param newTitle new question title
+ */
 function exam_updateQTitle(qid, newTitle){
     newTitle = newTitle.trim();
     document.getElementById(qid + '_question_title').innerHTML = '<i class="material-icons left">assignment</i>' +
