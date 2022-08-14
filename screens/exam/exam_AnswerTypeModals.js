@@ -116,8 +116,8 @@ function exam_AType_modify(qid, aid){
             exam_AType_multipleChoice_setOptions(examJson.questions[qid + ''].answer_types[aid + ''].content.options);
         }else{
             exam_AType_multipleChoice_setOptions([]);
-            exam_AType_multipleChoice_addOption();
         }
+        exam_AType_multipleChoice_addOption();
         editInstance.open();
     }else if (examJson.questions[qid+''].answer_types[aid+''].type == 3){ //Audio Recording
         let editInstance = M.Modal.getInstance(document.getElementById('exam_modal_editAnswerType_audio'));

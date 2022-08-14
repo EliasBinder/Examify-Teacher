@@ -105,7 +105,7 @@ function deleteExam(id){
 function deleteExam_submit() {
     apiCall('DELETE', {
         'examID': curActionExamID
-    }, 'examlist/exam', false, (success, json) => {
+    }, 'sharedexamlist/exam', false, (success, json) => {
         if (success) {
             delete examlist[curActionExamID];
             if (curRenderedExams.hasOwnProperty(curActionExamID))

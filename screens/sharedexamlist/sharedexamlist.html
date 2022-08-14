@@ -45,64 +45,13 @@
                         <a href="javascript:openExam('%id%')" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons left">play_circle</i>Hold</a>
                     </div>
                     <div class="row">
-                        <a href="javascript:deleteExam('%id%')" class="waves-effect waves-light btn blue lighten-2 modal-trigger"><i class="material-icons left">delete</i>Delete</a>
+                        <a href="javascript:deleteExam('%id%')" class="waves-effect waves-light btn blue lighten-2 modal-trigger"><i class="material-icons left">delete</i>Delete For Myself</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
-
-<div id="modal-create" class="modal">
-    <div class="modal-content">
-        <h4>Create a new exam</h4>
-        <p>
-        <div class="row" style="margin-top: 50px">
-            <div class="input-field col s12">
-                <input id="modal-create-newname" type="text" class="validate" value="New Exam">
-                <label for="modal-create-newname" class="active">Name of the exam</label>
-            </div>
-        </div>
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a href="javascript:createExam_close()" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
-        <a href="javascript:createExam_submit()" class="modal-close waves-effect waves-light btn-flat">Create</a>
-    </div>
-</div>
-
-<div id="modal-rename" class="modal">
-    <div class="modal-content">
-        <h4 id="modal-rename-title"></h4>
-        <p>
-        <div class="row" style="margin-top: 50px">
-            <div class="input-field col s12">
-                <input id="modal-rename-newname" type="text" class="validate" value="">
-                <label for="modal-rename-newname" class="active">New Name</label>
-            </div>
-        </div>
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
-        <a href="javascript:renameExam_submit()" class="modal-close waves-effect waves-light btn-flat">Rename</a>
-    </div>
-</div>
-
-<div id="modal-share" class="modal">
-    <div class="modal-content">
-        <h4>Share 'IDB Exam 2021/22'</h4>
-        <p class="col s12">
-            Who would you like to share 'IDB Exam 2021/22' with?
-        <div class="chips chips-autocomplete"></div>
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
-        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Share</a>
-    </div>
-</div>
 
 <div id="modal-delete" class="modal">
     <div class="modal-content">

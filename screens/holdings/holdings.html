@@ -31,17 +31,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>16.02.2022</td>
-                    <td>11:55 am</td>
-                    <td>abcd-efgh</td>
-                    <td class="valign-wrapper">
-                        <a href="javascript:render('holding', 'main')" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">visibility</i>View</a>
-                        <a><i class="material-icons red-text center" style="margin-left: 15px">delete</i></a>
-                    </td>
-                </tr>
                 </tbody>
             </table>
         </div>
     </li>
+</template>
+
+<template id="exam_collapsible_entry_template">
+    <tr>
+        <td>%startdate%</td>
+        <td>%starttime%</td>
+        <td>%ref%</td>
+        <td class="valign-wrapper">
+            <a href="javascript:render('holding', 'main')" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">visibility</i>View</a>
+        </td>
+    </tr>
 </template>
