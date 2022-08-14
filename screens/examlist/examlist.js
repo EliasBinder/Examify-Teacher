@@ -95,17 +95,17 @@ function createExam_submit() {
 /**
  * get a list of all exams of the user
  */
-function retrieveExamlist() {
+function retreiveExamlist() {
     apiCall('GET', null, 'examlist', false, (success, json) => {
         if (success){
             examlist = json;
             renderExams(examlist);
         }else{
-            M.toast({html: 'Could not retrieve your exams! Please try again later!'});
+            M.toast({html: 'Could not retreive your exams! Please try again later!'});
         }
     });
 }
-retrieveExamlist();
+retreiveExamlist();
 
 /**
  * render content of examlist into dom
@@ -336,7 +336,7 @@ function applyDragndrop(files) {
                         document.getElementById('navbar_search').style.display = 'none';
                         document.getElementById('search').value = '';
                         cancelSearch();
-                        retrieveExamlist();
+                        retreiveExamlist();
                         renderExams(examlist);
                     }else{
                         M.toast({html: 'Could not import the exam file!'});

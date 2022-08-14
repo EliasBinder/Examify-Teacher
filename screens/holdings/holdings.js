@@ -1,5 +1,8 @@
 //{import overlay/template/navigation.js}
 
+if (typeof holding_referenceID === 'undefined')
+    var holding_referenceID;
+
 if (typeof holdingslist === 'undefined')
     var holdingslist;
 holdingslist = {}; //Store globally in case of adding a search field later
@@ -8,18 +11,18 @@ domLoadListenerAdd(() => {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
 });
 
-function retrieveExamlist() {
+function retreiveExamlist() {
     apiCall('GET', null, 'holdinglist', false, (success, json) => {
         if (success){
             holdingslist = json;
             console.log("Holdinglist", json);
             renderExams(holdingslist);
         }else{
-            M.toast({html: 'Could not retrieve your exams! Please try again later!'});
+            M.toast({html: 'Could not retreive your exams! Please try again later!'});
         }
     });
 }
-retrieveExamlist();
+retreiveExamlist();
 
 function renderExams(holdingslist) {
     let examCollapsibleEntryHTML = document.getElementById('exam_collapsible_entry_template').innerHTML.trim();
@@ -46,6 +49,11 @@ function renderExams(holdingslist) {
         examColTemplate.innerHTML = examHTML;
         document.getElementById('exam_collapsible').appendChild(examColTemplate.content.firstChild);
     }
+}
+
+function openHolding(refId) {
+    holding_referenceID = refId;
+    render('holding', 'main');
 }
 
 /**

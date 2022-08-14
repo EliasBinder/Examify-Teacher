@@ -11,24 +11,30 @@
     <div class="row" style="margin-bottom: 0">
         <div class="col s6">
             <h6>Participation Reference</h6>
-            <h2 style="margin-top: 15px">abcd-efgh</h2>
+            <h2 style="margin-top: 15px" id="holding_ref">abcd-efgh</h2>
         </div>
         <div class="col s6 right-align">
             <h6>Exam</h6>
-            <h2 style="margin-top: 15px">IDB Exam</h2>
+            <h2 style="margin-top: 15px" id="holding_exam">IDB Exam</h2>
         </div>
     </div>
     <div class="row right-align" style="margin-top: 50px">
-        <h6><b>Joining Time:</b> 11:30am</h6>
-        <h6><b>Start Time:</b> 11:55am</h6>
+        <h6 id="holding_join"><b>Joining Time:</b> 11:30am</h6>
+        <h6 id="holding_start"><b>Start Time:</b> 11:55am</h6>
     </div>
     <div class="row" style="margin-top: 70px">
         <div class="row valign-wrapper">
             <div class="col s6">
                 <h4>Participants List</h4>
             </div>
-            <div class="col s6 right-align">
-                <a href="#" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">search</i>Search For Student</a>
+            <div id="holding_search_btn" class="col s6 right-align">
+                <a href="javascript:holding_toggleSearch()" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">search</i>Search For Student</a>
+            </div>
+            <div id="holding_search_bar" class="col s6 right-align" style="display: none; flex-direction: row; flex-wrap: nowrap; align-items: center; display: none">
+                <div class="input-field" style="width: 100%;">
+                    <input id="holding_search_bar_input" onchange="holding_search()" onkeyup="holding_search()" type="text">
+                </div>
+                <i class="material-icons inline" style="cursor:pointer; margin-left: 18px" onclick="holding_toggleSearch()">close</i>
             </div>
         </div>
         <div class="col s12">
@@ -40,23 +46,20 @@
                         <td class="center"><b>Actions</b></td>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Elias Binder</td>
-                        <td>19269</td>
-                        <td>
-                            <a href="#" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">visibility</i>Show Submission</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Dieter Schneider</td>
-                        <td>30000</td>
-                        <td>
-                            <a href="#" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">visibility</i>Show Submission</a>
-                        </td>
-                    </tr>
+                <tbody id="holding_participant_list">
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<template id="holding_participant_template">
+    <tr>
+        <td>%name%</td>
+        <td>%id%</td>
+        <td>
+            <a href="#" class="btn waves-effect waves-light blue lighten-2"><i class="material-icons left">visibility</i>Show Submission</a>
+        </td>
+    </tr>
+</template>

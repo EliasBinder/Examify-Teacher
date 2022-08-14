@@ -37,17 +37,17 @@ function openExam(examID){
 }
 
 
-function retrieveExamlist() {
+function retreiveExamlist() {
     apiCall('GET', null, 'sharedexamlist', false, (success, json) => {
         if (success){
             examlist = json;
             renderExams(examlist);
         }else{
-            M.toast({html: 'Could not retrieve exams that are shared with you! Please try again later!'});
+            M.toast({html: 'Could not retreive exams that are shared with you! Please try again later!'});
         }
     });
 }
-retrieveExamlist();
+retreiveExamlist();
 
 function renderExams(exams) {
     document.getElementById('examlist_container').innerHTML = '';

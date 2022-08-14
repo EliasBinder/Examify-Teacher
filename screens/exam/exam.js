@@ -80,7 +80,7 @@ examChanges = {};
 /**
  * Get exam content/data from backend
  */
-function retrieveExamPackage(){
+function retreiveExamPackage(){
     apiCall('GET', null, 'exam/' + exam_referenceID + '/getpackage', false, (success, json) => {
         if (success) {
             examJson = json;
@@ -104,7 +104,7 @@ function retrieveExamPackage(){
             M.toast({html: 'Could not download the exam!'});
     });
 }
-retrieveExamPackage();
+retreiveExamPackage();
 
 
 /**
